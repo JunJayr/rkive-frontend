@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
-import DashboardForm from './DashboardForm';
+import ProfileForm from './ProfileForm';
 
 export const metadata: Metadata = {
-  title: 'Rkive | Dashboard',
+  title: 'Rkive | Profile',
   description: 'Register to your Rkive account',
 };
 
 export default function Page() {
-  return <DashboardForm />;
+  return <ProfileForm />;
 }

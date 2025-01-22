@@ -1,7 +1,11 @@
+import type { Metadata } from 'next';
+import PasswordReset from './PasswordResetForm';
+
+export const metadata: Metadata = {
+  title: 'Rkive | Password Reset',
+  description: 'Register to your Rkive account',
+};
+
 export default function Page() {
-    return (
-        <main>
-            <h1>Request Password Reset</h1>
-        </main>
-    );
+  return <PasswordReset />;
 }

@@ -1,7 +1,7 @@
-export default function Page() {
-    return (
-        <main>
-            <h1>Set New Password</h1>
-        </main>
-    );
+export default function page() {
+  return(
+    <div>
+        <h1>Confirm Password Reset</h1>
+    </div>
+  );
 }
