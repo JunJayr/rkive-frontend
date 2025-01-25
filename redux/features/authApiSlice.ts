@@ -64,6 +64,26 @@ const authApiSlice = apiSlice.injectEndpoints({
 				body: { uid, token, new_password, re_new_password },
 			}),
 		}),
+		applicationGenerate: builder.mutation({
+			query: ({ department, lead_researcher, lead_contactno, co_researcher, 
+				co_researcher1, co_researcher2, co_researcher3, co_researcher4, 
+				research_title, datetime_defense, place_defense, panel_chair, 
+				adviser, panel1, panel2, panel3, documenter
+			}) => ({
+				url: '/application-docx/',
+				method: 'POST',
+				body: { department, lead_researcher, lead_contactno, co_researcher, 
+					co_researcher1, co_researcher2, co_researcher3, co_researcher4, 
+					research_title, datetime_defense, place_defense, panel_chair, 
+					adviser, panel1, panel2, panel3, documenter },
+			}),
+		}),
+		panelGenerate: builder.mutation({
+			query: () => ({
+				url: '/panel-docx/',
+				method: 'POST',
+			}),
+		}),
 	}),
 });
 
@@ -76,4 +96,6 @@ export const {
 	useActivationMutation,
 	useResetPasswordMutation,
 	useResetPasswordConfirmMutation,
+	useApplicationGenerateMutation,
+	usePanelGenerateMutation,
 } = authApiSlice;
