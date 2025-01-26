@@ -79,9 +79,15 @@ const authApiSlice = apiSlice.injectEndpoints({
 			}),
 		}),
 		panelGenerate: builder.mutation({
-			query: () => ({
+			query: ({ research_title, co_researcher, co_researcher1, co_researcher2,
+					co_researcher3, co_researcher4, lead_researcher, adviser,
+					panel_chair, panel1, panel2, panel3
+			}) => ({
 				url: '/panel-docx/',
 				method: 'POST',
+				body: { research_title, co_researcher, co_researcher1, co_researcher2,
+					co_researcher3, co_researcher4, lead_researcher, adviser,
+					panel_chair, panel1, panel2, panel3 },
 			}),
 		}),
 	}),

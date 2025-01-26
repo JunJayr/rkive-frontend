@@ -1,44 +1,58 @@
-// hooks/usePanelGeneration.ts
 import { useState, ChangeEvent, FormEvent } from 'react';
 import { toast } from 'react-toastify';
 import { usePanelGenerateMutation } from '@/redux/features/authApiSlice';
 
-export default function usePanelGeneration() {
-  const [panelGenerate, { isLoading }] = usePanelGenerateMutation();
-  const [formData, setFormData] = useState({
-    panelChair: '',
-    adviser: '',
-    members: ['', '', ''],
-  });
+interface PanelFormData {
+  research_title: string;
+  co_researcher: string;
+  co_researcher1: string;
+  co_researcher2: string;
+  co_researcher3: string;
+  co_researcher4: string;
+  lead_researcher: string;
+  adviser: string;
+  panel_chair: string;
+  panel1: string;
+  panel2: string;
+  panel3: string;
+}
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>, index?: number) => {
-    if (typeof index === 'number') {
-      const newMembers = [...formData.members];
-      newMembers[index] = event.target.value;
-      setFormData({ ...formData, members: newMembers });
-    } else {
-      setFormData({
-        ...formData,
-        [event.target.name]: event.target.value
-      });
-    }
+const initialFormState: PanelFormData = {
+  research_title: '',
+  co_researcher: '',
+  co_researcher1: '',
+  co_researcher2: '',
+  co_researcher3: '',
+  co_researcher4: '',
+  lead_researcher: '',
+  adviser: '',
+  panel_chair: '',
+  panel1: '',
+  panel2: '',
+  panel3: '',
+};
+
+export default function usePanelGeneration() {
+  const [applicationGenerate, { isLoading }] = usePanelGenerateMutation();
+  const [formData, setFormData] = useState<PanelFormData>(initialFormState);
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     try {
-      const response = await panelGenerate(formData).unwrap();
-      if (response instanceof Blob) {
-        const url = window.URL.createObjectURL(response);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `Panel_${formData.panelChair}.docx`;
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-        toast.success('Panel document generated successfully!');
-      }
-    } catch (error) {
+      // Make the request
+      const { file_url } = await applicationGenerate(formData).unwrap();
+
+      // Redirect to the file URL for download
+      window.location.href = file_url;
+      toast.success('Your file is downloading...');
+    } catch (error: any) {
+      console.error('Error:', error);
       toast.error('Failed to generate panel document');
     }
   };
