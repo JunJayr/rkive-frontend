@@ -172,7 +172,7 @@ export default function ApplicationForm() {
               type="submit"
               className="w-full py-2 px-4 flex justify-center items-center border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-800 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
-              {isLoading ? <Spinner sm /> : 'Generate Defense Application Document'}
+              {isLoading ? <Spinner sm /> : 'Submit'}
             </button>
           </form>
         </div>

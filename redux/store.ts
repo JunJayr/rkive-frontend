@@ -8,7 +8,18 @@ export const store = configureStore({
 		auth: authReducer,
 	},
 	middleware: getDefaultMiddleware =>
-		getDefaultMiddleware().concat(apiSlice.middleware),
+		getDefaultMiddleware({
+			serializableCheck: {
+				// Ignore paths in RTK Query state if they're storing non-serializable data
+				ignoredPaths: [apiSlice.reducerPath],
+				// or you can ignore the specific RTK Query action types, e.g.:
+				// ignoredActions: [
+				//   'api/executeQuery/pending',
+				//   'api/executeQuery/fulfilled',
+				//   'api/executeQuery/rejected',
+				// ],
+			  },
+		}).concat(apiSlice.middleware),
 	devTools: process.env.NODE_ENV !== 'production',
 });
 

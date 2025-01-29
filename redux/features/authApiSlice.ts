@@ -6,6 +6,41 @@ interface User {
 	email: string;
 }
 
+interface ApplicationFormData {
+	department: string;
+	lead_researcher: string;
+	lead_contactno: string;
+	co_researcher: string;
+	co_researcher1: string;
+	co_researcher2: string;
+	co_researcher3: string;
+	co_researcher4: string;
+	research_title: string;
+	datetime_defense: string;
+	place_defense: string;
+	panel_chair: string;
+	adviser: string;
+	panel1: string;
+	panel2: string;
+	panel3: string;
+	documenter: string;
+}
+  
+interface PanelFormData {
+	research_title: string;
+	co_researcher: string;
+	co_researcher1: string;
+	co_researcher2: string;
+	co_researcher3: string;
+	co_researcher4: string;
+	lead_researcher: string;
+	adviser: string;
+	panel_chair: string;
+	panel1: string;
+	panel2: string;
+	panel3: string;
+}
+
 const authApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
 		retrieveUser: builder.query<User, void>({
@@ -64,30 +99,21 @@ const authApiSlice = apiSlice.injectEndpoints({
 				body: { uid, token, new_password, re_new_password },
 			}),
 		}),
-		applicationGenerate: builder.mutation({
-			query: ({ department, lead_researcher, lead_contactno, co_researcher, 
-				co_researcher1, co_researcher2, co_researcher3, co_researcher4, 
-				research_title, datetime_defense, place_defense, panel_chair, 
-				adviser, panel1, panel2, panel3, documenter
-			}) => ({
-				url: '/application-docx/',
-				method: 'POST',
-				body: { department, lead_researcher, lead_contactno, co_researcher, 
-					co_researcher1, co_researcher2, co_researcher3, co_researcher4, 
-					research_title, datetime_defense, place_defense, panel_chair, 
-					adviser, panel1, panel2, panel3, documenter },
+		// --------------  DOCX -> PDF GENERATION ENDPOINTS --------------
+		applicationGenerate: builder.mutation<Blob, ApplicationFormData>({
+			query: (formData) => ({
+			  url: '/application-docx/',
+			  method: 'POST',
+			  body: formData,
+			  responseHandler: (response) => response.blob(),
 			}),
 		}),
-		panelGenerate: builder.mutation({
-			query: ({ research_title, co_researcher, co_researcher1, co_researcher2,
-					co_researcher3, co_researcher4, lead_researcher, adviser,
-					panel_chair, panel1, panel2, panel3
-			}) => ({
-				url: '/panel-docx/',
-				method: 'POST',
-				body: { research_title, co_researcher, co_researcher1, co_researcher2,
-					co_researcher3, co_researcher4, lead_researcher, adviser,
-					panel_chair, panel1, panel2, panel3 },
+		panelGenerate: builder.mutation<Blob, PanelFormData>({
+			query: (formData) => ({
+			  url: '/panel-docx/',
+			  method: 'POST',
+			  body: formData,
+			  responseHandler: (response) => response.blob(),
 			}),
 		}),
 	}),
@@ -102,6 +128,7 @@ export const {
 	useActivationMutation,
 	useResetPasswordMutation,
 	useResetPasswordConfirmMutation,
+	
 	useApplicationGenerateMutation,
-	usePanelGenerateMutation,
+  	usePanelGenerateMutation,
 } = authApiSlice;
