@@ -99,7 +99,7 @@ const authApiSlice = apiSlice.injectEndpoints({
 				body: { uid, token, new_password, re_new_password },
 			}),
 		}),
-		// --------------  DOCX -> PDF GENERATION ENDPOINTS --------------
+
 		applicationGenerate: builder.mutation<Blob, ApplicationFormData>({
 			query: (formData) => ({
 			  url: '/application-docx/',

@@ -13,21 +13,15 @@ export default function PanelForm() {
     handleChange,
     handleSubmit,
     setPreviewUrl,
+    handleDownload, // if you wish to keep the download logic separate in the hook
   } = usePanelGeneration();
 
-  // This will hide most default Chrome PDF toolbar items, if you want to keep that
+  // Append #toolbar=0 to hide most default Chrome PDF toolbar items
   const pdfUrl = previewUrl ? `${previewUrl}#toolbar=0` : null;
 
-  // Force a local download by creating an anchor and clicking it
-  const handleDownload = () => {
-    if (!previewUrl) return;
-
-    const link = document.createElement('a');
-    link.href = previewUrl;
-    link.download = 'panel_document.pdf'; // File name for the downloaded PDF
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  // Closes the preview and returns to the form
+  const handleClosePreview = () => {
+    setPreviewUrl(null);
   };
 
   return (
@@ -35,19 +29,32 @@ export default function PanelForm() {
       <Navbar />
       <div className="flex-grow flex items-center justify-center bg-gray-100 py-20 px-4">
         <div className="w-full max-w-3xl bg-white p-6 rounded-lg shadow-lg">
-          <h2 className="text-center text-2xl font-bold tracking-tight text-indigo-900 mb-6">
-            Nomination of Members of Oral Examination Panel
-          </h2>
+          {/* Heading + optional close button */}
+          <div className="relative mb-6">
+            <h2 className="text-center text-2xl font-bold tracking-tight text-indigo-900">
+              Nomination of Members of Oral Examination Panel
+            </h2>
+            {pdfUrl && (
+              <button
+                type="button"
+                onClick={handleClosePreview}
+                className="absolute top-0 right-0 text-gray-600 hover:text-gray-900"
+                aria-label="Close Preview"
+              >
+                X
+              </button>
+            )}
+          </div>
 
           {pdfUrl ? (
             <div>
-              {/* Optional preview in an iframe */}
+              {/* Optional inline PDF preview */}
               <iframe
                 src={pdfUrl}
                 className="w-full h-[500px] border border-gray-300 mb-4"
                 title="Document Preview"
               />
-              
+
               {/* Centered "Download" button */}
               <div className="flex justify-center">
                 <button

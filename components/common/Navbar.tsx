@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useRetrieveUserQuery, useLogoutMutation } from '@/redux/features/authApiSlice';
 import { useAppDispatch } from '@/redux/hooks';
 import { logout as setLogout } from '@/redux/features/authSlice';
+import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 
 export default function Navbar() {
