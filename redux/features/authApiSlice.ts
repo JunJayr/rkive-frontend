@@ -41,6 +41,11 @@ interface PanelFormData {
 	panel3: string;
 }
 
+interface ManuscriptSubmissionData{
+	title: string;
+	pdf: File;
+}
+
 const authApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
 		retrieveUser: builder.query<User, void>({
@@ -100,6 +105,7 @@ const authApiSlice = apiSlice.injectEndpoints({
 			}),
 		}),
 
+		// Forms Upload: Application and Panel Form
 		applicationGenerate: builder.mutation<Blob, ApplicationFormData>({
 			query: (formData) => ({
 			  url: '/application-docx/',
@@ -116,6 +122,19 @@ const authApiSlice = apiSlice.injectEndpoints({
 			  responseHandler: (response) => response.blob(),
 			}),
 		}),
+
+		// Manuscript Submission API
+		manuscriptSubmission: builder.mutation({
+			query: (formData: FormData) => ({
+				url: '/manuscripts/',
+				method: 'POST',
+				body: formData,
+			}),
+		}),
+		// Retrieve Manuscripts API
+		getManuscripts: builder.query({
+			query: (title: string) => `/manuscripts/?title=${title}`, // Pass title as a query param
+		}),
 	}),
 });
 
@@ -131,4 +150,7 @@ export const {
 	
 	useApplicationGenerateMutation,
   	usePanelGenerateMutation,
+
+	useManuscriptSubmissionMutation,
+	useGetManuscriptsQuery,
 } = authApiSlice;
