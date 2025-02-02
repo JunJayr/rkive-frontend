@@ -132,8 +132,12 @@ const authApiSlice = apiSlice.injectEndpoints({
 			}),
 		}),
 		// Retrieve Manuscripts API
-		getManuscripts: builder.query({
-			query: (title: string) => `/manuscripts/?title=${title}`, // Pass title as a query param
+		searchManuscripts: builder.query<Blob, number>({
+			query: (manuscriptId) => ({
+			url: `/manuscript-pdf/${manuscriptId}/`,
+			// parse as Blob
+			responseHandler: (response) => response.blob(),
+			})
 		}),
 	}),
 });
@@ -152,5 +156,5 @@ export const {
   	usePanelGenerateMutation,
 
 	useManuscriptSubmissionMutation,
-	useGetManuscriptsQuery,
+	useSearchManuscriptsQuery,
 } = authApiSlice;

@@ -6,15 +6,17 @@ import Footer from '@/components/common/Footer';
 import Navbar from '@/components/common/Navbar';
 
 export default function SubmitForm() {
-	const { 
-		title, 
-		file, 
-		isLoading, 
-		isError, 
-		isSuccess, 
-		onChangeTitle, 
-		onChangeFile, 
-		onSubmit 
+	const {
+		title,
+		description,
+		file,
+		isLoading,
+		isError,
+		isSuccess,
+		onChangeTitle,
+		onChangeDescription,
+		onChangeFile,
+		onSubmit,
 	} = useManuscriptSubmission();
 
 	return (
@@ -24,11 +26,11 @@ export default function SubmitForm() {
 
 			{/* Main Content Centered */}
 			<div className="flex flex-col items-center justify-center flex-grow p-6">
-				<h1 className="text-2xl font-bold text-gray-900 mb-4">Submit Form</h1>
+				<h1 className="text-2xl font-bold text-gray-900 mb-4">Submit Manuscript</h1>
 
 				{/* Form */}
 				<form className="space-y-6 w-full max-w-2xl" onSubmit={onSubmit}>
-					{/* Standard Input */}
+					{/* Title Input */}
 					<div className="relative h-11 w-full min-w-[200px]">
 						<input
 							className="peer h-full w-full border-b border-blue-gray-200 bg-transparent pt-4 pb-1.5 font-sans text-sm font-normal text-blue-gray-700 outline-none transition-all placeholder-shown:border-blue-gray-200 focus:border-yellow-500 focus:outline-none disabled:border-0 disabled:bg-blue-gray-50"
@@ -37,6 +39,18 @@ export default function SubmitForm() {
 							onChange={onChangeTitle}
 							required
 						/>
+					</div>
+
+					{/* Description Input */}
+					<div>
+						<textarea
+							className="w-full p-4 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-yellow-500 focus:border-yellow-500"
+							placeholder="Enter Description"
+							value={description}
+							onChange={onChangeDescription}
+							rows={4}
+							required
+						></textarea>
 					</div>
 
 					{/* File Upload Input */}
@@ -49,7 +63,7 @@ export default function SubmitForm() {
 							id="file_input"
 							type="file"
 							accept=".pdf"
-							onChange={onChangeFile} // ✅ Updates file state
+							onChange={onChangeFile}
 							required
 						/>
 					</div>
@@ -62,6 +76,10 @@ export default function SubmitForm() {
 					>
 						{isLoading ? <Spinner /> : 'Submit'}
 					</button>
+
+					{/* Success/Error Messages */}
+					{isSuccess && <p className="text-green-500">Manuscript submitted successfully!</p>}
+					{isError && <p className="text-red-500">Failed to submit manuscript. Please try again.</p>}
 				</form>
 			</div>
 

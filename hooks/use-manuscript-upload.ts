@@ -4,12 +4,18 @@ import { useManuscriptSubmissionMutation } from '@/redux/features/authApiSlice';
 
 export default function useManuscriptSubmission() {
 	const [title, setTitle] = useState('');
+	const [description, setDescription] = useState('');
 	const [file, setFile] = useState<File | null>(null);
 	const [submitManuscript, { isLoading, isError, isSuccess }] = useManuscriptSubmissionMutation();
 
 	// Handle input change for title
 	const onChangeTitle = (event: ChangeEvent<HTMLInputElement>) => {
 		setTitle(event.target.value);
+	};
+
+	// Handle input change for description
+	const onChangeDescription = (event: ChangeEvent<HTMLTextAreaElement>) => {
+		setDescription(event.target.value);
 	};
 
 	// Handle file upload
@@ -21,6 +27,7 @@ export default function useManuscriptSubmission() {
 	// Reset form fields after successful submission
 	const resetForm = () => {
 		setTitle('');
+		setDescription('');
 		setFile(null);
 	};
 
@@ -29,12 +36,13 @@ export default function useManuscriptSubmission() {
 		event.preventDefault();
 
 		if (!title || !file) {
-			toast.error('Please provide both a title and a PDF file.');
+			toast.error('Please provide a title, description, and a PDF file.');
 			return;
 		}
 
 		const formData = new FormData();
 		formData.append('title', title);
+		formData.append('description', description); // Include description
 		formData.append('pdf', file);
 
 		try {
@@ -49,11 +57,13 @@ export default function useManuscriptSubmission() {
 
 	return {
 		title,
+		description,
 		file,
 		isLoading,
 		isError,
 		isSuccess,
 		onChangeTitle,
+		onChangeDescription,
 		onChangeFile,
 		onSubmit,
 	};
