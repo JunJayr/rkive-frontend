@@ -136,12 +136,6 @@ const authApiSlice = apiSlice.injectEndpoints({
 			query: (searchQuery) => `/manuscripts/?q=${encodeURIComponent(searchQuery)}`,
 			transformResponse: (response: any[]) => response, // Ensure it returns an array
 		}),
-		fetchManuscriptPdf: builder.query<Blob, number>({
-			query: (manuscriptId) => ({
-			  url: `/manuscript-pdf/${manuscriptId}/`, // Endpoint to fetch the PDF
-			  responseHandler: (response) => response.blob(), // Return as Blob
-			}),
-		}),  
 	}),
 });
 
@@ -160,5 +154,4 @@ export const {
 
 	useManuscriptSubmissionMutation,
 	useSearchManuscriptsQuery,
-	useFetchManuscriptPdfQuery
 } = authApiSlice;

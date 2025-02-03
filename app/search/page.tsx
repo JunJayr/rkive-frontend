@@ -5,7 +5,6 @@ import { useState, useEffect } from 'react';
 import Sidebar from '@/components/common/Sidebar';
 import Footer from '@/components/common/Footer';
 import Spinner from '@/components/common/Spinner';
-import {useOpenManuscript} from '@/hooks'; // The custom hook for opening PDFs
 import { useSearchManuscriptsQuery } from '@/redux/features/authApiSlice';
 
 export default function SearchPage() {
@@ -14,24 +13,21 @@ export default function SearchPage() {
   const query = searchParams.get('q') || '';
   const [searchTerm, setSearchTerm] = useState(query);
 
-  // 2) RTK Query: fetch manuscripts that match the search term
+  // 2) Fetch manuscripts based on the search term
   const {
-    data: manuscripts,
-    isLoading,
-    isError,
+    data: manuscripts = [], // FIX: Default value to prevent undefined errors
+    isLoading: isSearching,
+    isError: searchError,
   } = useSearchManuscriptsQuery(query, {
     skip: !query, // Skip the query if there's no search term
   });
 
-  // 3) Hook to open PDFs in a new tab + optional "opening" state
-  const { isOpening, openManuscript } = useOpenManuscript();
-
-  // 4) Update the local state whenever the route's query changes
+  // 3) Update the local state whenever the route's query changes
   useEffect(() => {
     setSearchTerm(query);
   }, [query]);
 
-  // 5) Handle the search form submission
+  // 4) Handle the search form submission
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (searchTerm.trim()) {
@@ -39,10 +35,17 @@ export default function SearchPage() {
     }
   };
 
-  // 6) Click handler to open the PDF in a new tab
+  // 5) Handle result click to open the PDF in a new tab
   const handleResultClick = (pdfUrl: string) => {
-    openManuscript(pdfUrl);
+    if (pdfUrl) {
+      console.log("Opening PDF:", pdfUrl); // Debugging: Check the actual URL in the console
+  
+      // Open the PDF in a new tab with the correct URL
+      window.open(pdfUrl, '_blank', 'noopener,noreferrer');
+    }
   };
+  
+  
 
   return (
     <div className="relative min-h-screen bg-white">
@@ -75,20 +78,20 @@ export default function SearchPage() {
       {/* Results Section */}
       <main className="pt-20 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col items-start space-y-8">
         <div className="w-full max-w-4xl mt-8">
-          {isLoading && <Spinner />}
-          {isError && (
+          {isSearching && <Spinner />}
+          {searchError && (
             <p className="text-red-500 text-center">
               Failed to fetch manuscripts. Please try again later.
             </p>
           )}
 
           {/* Render the list of manuscripts if we have any */}
-          {manuscripts?.length > 0 ? (
+          {manuscripts.length > 0 ? ( // FIX: manuscripts always has a default value now
             <ul className="space-y-4">
               {manuscripts.map((manuscript: any) => (
                 <li
                   key={manuscript.id}
-                  onClick={() => handleResultClick(manuscript.pdf_url)}
+                  onClick={() => handleResultClick(manuscript.pdf_url)} // Open PDF directly
                   className="p-4 bg-gray-100 rounded-lg shadow hover:bg-gray-200 transition cursor-pointer"
                 >
                   <div className="flex flex-col">
@@ -105,7 +108,7 @@ export default function SearchPage() {
               ))}
             </ul>
           ) : (
-            !isLoading && (
+            !isSearching && (
               <p className="text-gray-500 text-center">
                 No results found for "{query}".
               </p>
@@ -113,13 +116,6 @@ export default function SearchPage() {
           )}
         </div>
       </main>
-
-      {/* (Optional) show a loading overlay if isOpening is true */}
-      {isOpening && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-25">
-          <p className="text-white">Opening PDF...</p>
-        </div>
-      )}
 
       {/* Footer */}
       <Footer />

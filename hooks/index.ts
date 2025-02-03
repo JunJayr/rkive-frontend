@@ -6,4 +6,3 @@ export { default as useResetPassword } from './use-reset-password';
 export { default as useApplicationGeneration } from './use-application-form'
 export { default as usePanelGeneration } from './use-panel-form'
 export { default as useManuscriptSubmission} from './use-manuscript-upload'
-export { default as useOpenManuscript } from './use-open-manuscript'
