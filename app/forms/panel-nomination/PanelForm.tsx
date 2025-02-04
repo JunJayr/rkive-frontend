@@ -68,31 +68,43 @@ export default function PanelForm() {
           ) : (
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Research Title */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Research Title
-                </label>
+              <div className="relative z-0 w-full mb-5 group">
                 <input
+                  type="text"
                   name="research_title"
+                  id="floating_research_title"
                   value={formData.research_title}
                   onChange={handleChange}
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  className="peer block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600"
+                  placeholder=" "
                   required
                 />
+                <label
+                  htmlFor="floating_research_title"
+                  className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                >
+                  Research Title
+                </label>
               </div>
 
               {/* Lead Researcher */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Lead Researcher
-                </label>
+              <div className="relative z-0 w-full mb-5 group">
                 <input
+                  type="text"
                   name="lead_researcher"
+                  id="floating_lead_researcher"
                   value={formData.lead_researcher}
                   onChange={handleChange}
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  className="peer block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600"
+                  placeholder=" "
                   required
                 />
+                <label
+                  htmlFor="floating_lead_researcher"
+                  className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                >
+                  Lead Researcher
+                </label>
               </div>
 
               {/* Co-Researchers */}
@@ -102,26 +114,26 @@ export default function PanelForm() {
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {[0, 1, 2, 3, 4].map((index) => (
-                    <div key={index}>
-                      <label
-                        htmlFor={`co_researcher${index}`}
-                        className="block text-sm font-medium text-gray-700"
-                      >
-                        {`Co-Researcher ${index + 1}`}
-                      </label>
+                    <div key={index} className="relative z-0 w-full mb-5 group">
                       <input
+                        type="text"
                         id={`co_researcher${index}`}
                         name={`co_researcher${index > 0 ? index : ''}`}
                         value={
                           formData[
-                            `co_researcher${
-                              index > 0 ? index : ''
-                            }` as keyof typeof formData
+                            `co_researcher${index > 0 ? index : ''}` as keyof typeof formData
                           ]
                         }
                         onChange={handleChange}
-                        className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                        className="peer block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600"
+                        placeholder=" "
                       />
+                      <label
+                        htmlFor={`co_researcher${index}`}
+                        className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                      >
+                        {`Co-Researcher ${index + 1}`}
+                      </label>
                     </div>
                   ))}
                 </div>
@@ -133,51 +145,66 @@ export default function PanelForm() {
                   Panel Information
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">
-                      Panel Chair
-                    </label>
+                  <div className="relative z-0 w-full mb-5 group">
                     <input
+                      type="text"
                       name="panel_chair"
+                      id="floating_panel_chair"
                       value={formData.panel_chair}
                       onChange={handleChange}
-                      className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      className="peer block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600"
+                      placeholder=" "
                       required
                     />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">
-                      Adviser
+                    <label
+                      htmlFor="floating_panel_chair"
+                      className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                    >
+                      Panel Chair
                     </label>
+                  </div>
+                  <div className="relative z-0 w-full mb-5 group">
                     <input
+                      type="text"
                       name="adviser"
+                      id="floating_adviser"
                       value={formData.adviser}
                       onChange={handleChange}
-                      className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      className="peer block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600"
+                      placeholder=" "
                       required
                     />
+                    <label
+                      htmlFor="floating_adviser"
+                      className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                    >
+                      Adviser
+                    </label>
                   </div>
                 </div>
                 {[1, 2, 3].map((panelNumber) => (
-                  <div key={panelNumber}>
-                    <label
-                      htmlFor={`panel${panelNumber}`}
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      {`Panel Member ${panelNumber}`}
-                    </label>
+                  <div
+                    key={panelNumber}
+                    className="relative z-0 w-full mb-5 group"
+                  >
                     <input
+                      type="text"
                       id={`panel${panelNumber}`}
                       name={`panel${panelNumber}`}
                       value={
-                        formData[
-                          `panel${panelNumber}` as keyof typeof formData
-                        ]
+                        formData[`panel${panelNumber}` as keyof typeof formData]
                       }
                       onChange={handleChange}
-                      className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      className="peer block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600"
+                      placeholder=" "
                       required
                     />
+                    <label
+                      htmlFor={`panel${panelNumber}`}
+                      className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                    >
+                      {`Panel Member ${panelNumber}`}
+                    </label>
                   </div>
                 ))}
               </div>
