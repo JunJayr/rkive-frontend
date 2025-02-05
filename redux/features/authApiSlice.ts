@@ -45,93 +45,93 @@ const authApiSlice = apiSlice.injectEndpoints({
 	overrideExisting: true,
 	endpoints: (builder) => ({
 		retrieveUser: builder.query<User, void>({
-		query: () => '/users/me/',
+			query: () => '/users/me/',
 		}),
 		login: builder.mutation({
-		query: ({ email, password }) => ({
-			url: '/jwt/create/',
-			method: 'POST',
-			body: { email, password },
+			query: ({ email, password }) => ({
+				url: '/jwt/create/',
+				method: 'POST',
+				body: { email, password },
 		}),
 		}),
 		register: builder.mutation({
-		query: ({ first_name, last_name, email, password, re_password }) => ({
-			url: '/users/',
-			method: 'POST',
-			body: { first_name, last_name, email, password, re_password },
-		}),
+			query: ({ first_name, last_name, email, password, re_password }) => ({
+				url: '/users/',
+				method: 'POST',
+				body: { first_name, last_name, email, password, re_password },
+			}),
 		}),
 		verify: builder.mutation({
-		query: () => ({
-			url: '/jwt/verify/',
-			method: 'POST',
-		}),
-		}),
-		logout: builder.mutation({
-		query: () => ({
-			url: '/logout/',
-			method: 'POST',
-		}),
-		}),
+			query: (token: string) => ({
+			  url: '/jwt/verify/',
+			  method: 'POST',
+			  body: { token },
+			}),
+		  }),
 		activation: builder.mutation({
-		query: ({ uid, token }) => ({
-			url: '/users/activation/',
-			method: 'POST',
-			body: { uid, token },
-		}),
+			query: ({ uid, token }) => ({
+				url: '/users/activation/',
+				method: 'POST',
+				body: { uid, token },
+			}),
 		}),
 		resetPassword: builder.mutation({
-		query: (email) => ({
-			url: '/users/reset_password/',
-			method: 'POST',
-			body: { email },
-		}),
+			query: (email) => ({
+				url: '/users/reset_password/',
+				method: 'POST',
+				body: { email },
+			}),
 		}),
 		resetPasswordConfirm: builder.mutation({
-		query: ({ uid, token, new_password, re_new_password }) => ({
-			url: '/users/reset_password_confirm/',
-			method: 'POST',
-			body: { uid, token, new_password, re_new_password },
+			query: ({ uid, token, new_password, re_new_password }) => ({
+				url: '/users/reset_password_confirm/',
+				method: 'POST',
+				body: { uid, token, new_password, re_new_password },
+			}),
 		}),
+		logout: builder.mutation({
+			query: () => ({
+				url: '/logout/',
+				method: 'POST',
+			}),
 		}),
 
 		// Forms Upload: Application and Panel Form
-		// Instead of returning a Blob, we'll create an object URL string
 		applicationGenerate: builder.mutation<string, ApplicationFormData>({
-		query: (formData) => ({
-			url: '/application-docx/',
-			method: 'POST',
-			body: formData,
-			responseHandler: (response) => response.blob(),
-		}),
-		transformResponse: (responseBlob: Blob) => {
-			return URL.createObjectURL(responseBlob);
-		},
+			query: (formData) => ({
+				url: '/application-docx/',
+				method: 'POST',
+				body: formData,
+				responseHandler: (response) => response.blob(),
+			}),
+			transformResponse: (responseBlob: Blob) => {
+				return URL.createObjectURL(responseBlob);
+			},
 		}),
 		panelGenerate: builder.mutation<string, PanelFormData>({
-		query: (formData) => ({
-			url: '/panel-docx/',
-			method: 'POST',
-			body: formData,
-			responseHandler: (response) => response.blob(),
-		}),
-		transformResponse: (responseBlob: Blob) => {
-			return URL.createObjectURL(responseBlob);
-		},
+			query: (formData) => ({
+				url: '/panel-docx/',
+				method: 'POST',
+				body: formData,
+				responseHandler: (response) => response.blob(),
+			}),
+			transformResponse: (responseBlob: Blob) => {
+				return URL.createObjectURL(responseBlob);
+			},
 		}),
 
 		// Manuscript Submission API
 		manuscriptSubmission: builder.mutation({
-		query: (formData: FormData) => ({
-			url: '/manuscripts/',
-			method: 'POST',
-			body: formData,
-		}),
+			query: (formData: FormData) => ({
+				url: '/manuscripts/',
+				method: 'POST',
+				body: formData,
+			}),
 		}),
 		// Retrieve Manuscripts API
 		searchManuscripts: builder.query<any[], string>({
-		query: (searchQuery) => `/manuscripts/?q=${encodeURIComponent(searchQuery)}`,
-		transformResponse: (response: any[]) => response, // Ensure it returns an array
+			query: (searchQuery) => `/manuscripts/?q=${encodeURIComponent(searchQuery)}`,
+			transformResponse: (response: any[]) => response, // Ensure it returns an array
 		}),
 	}),
 });
