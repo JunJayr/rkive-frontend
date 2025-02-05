@@ -43,12 +43,13 @@ const initialFormState: ApplicationFormData = {
 };
 
 export default function useApplicationGeneration() {
+  // The mutation now returns an object URL string, not a Blob
   const [applicationGenerate, { isLoading }] = useApplicationGenerateMutation();
 
   const [formData, setFormData] = useState<ApplicationFormData>(initialFormState);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
-  // Clean up any Blob URLs when component unmounts or previewUrl changes
+  // Revoke the old object URL on unmount or when previewUrl changes
   useEffect(() => {
     return () => {
       if (previewUrl) {
@@ -63,16 +64,13 @@ export default function useApplicationGeneration() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Submit the form, generate the PDF (Blob), and create a local preview URL
+  // Submit form -> generate doc -> store returned object URL in state
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     try {
-      // The server returns a Blob (PDF) if properly configured
-      const pdfBlob = await applicationGenerate(formData).unwrap();
-      const blobUrl = URL.createObjectURL(pdfBlob);
-      setPreviewUrl(blobUrl);
-
+      // The new API slice returns a string (object URL) directly
+      const docUrl = await applicationGenerate(formData).unwrap();
+      setPreviewUrl(docUrl);
       toast.success('Document is ready to view or download!');
     } catch (error: any) {
       console.error('Error generating application document:', error);
@@ -80,13 +78,12 @@ export default function useApplicationGeneration() {
     }
   };
 
-  // Download the PDF directly by creating a hidden <a> link and clicking it
+  // Download the file by programmatically clicking an <a> link
   const handleDownload = () => {
     if (!previewUrl) return;
-
     const link = document.createElement('a');
     link.href = previewUrl;
-    link.download = 'application_document.pdf';
+    link.download = 'application_document.pdf'; // Adjust the file name/extension as needed
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

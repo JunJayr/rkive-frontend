@@ -33,12 +33,13 @@ const initialFormState: PanelFormData = {
 };
 
 export default function usePanelGeneration() {
+  // This mutation now returns a string (object URL), not a Blob
   const [panelGenerate, { isLoading }] = usePanelGenerateMutation();
 
   const [formData, setFormData] = useState<PanelFormData>(initialFormState);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
-  // Clean up any Blob URLs when the component unmounts or when previewUrl changes
+  // Revoke any existing object URL when unmounting or changing preview URL
   useEffect(() => {
     return () => {
       if (previewUrl) {
@@ -52,15 +53,13 @@ export default function usePanelGeneration() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Generate the PDF (Blob) and create a preview URL, but do not open it automatically
+  // Submit form and store the object URL in state
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     try {
-      const pdfBlob = await panelGenerate(formData).unwrap();
-      const blobUrl = URL.createObjectURL(pdfBlob);
-      setPreviewUrl(blobUrl);
-
+      // The updated endpoint returns an object URL string
+      const docUrl = await panelGenerate(formData).unwrap();
+      setPreviewUrl(docUrl);
       toast.success('Document is ready for download.');
     } catch (error: any) {
       console.error('Error generating panel document:', error);
@@ -68,14 +67,12 @@ export default function usePanelGeneration() {
     }
   };
 
-  // If user clicks "Download," we create a temporary <a> tag, trigger a click, and remove it
-  // The absence of link.target="_blank" ensures most browsers will save the file locally
+  // Trigger file download using the object URL
   const handleDownload = () => {
     if (!previewUrl) return;
-
     const link = document.createElement('a');
     link.href = previewUrl;
-    link.download = 'panel_document.pdf'; // The file name for the downloaded PDF
+    link.download = 'panel_document.pdf'; // or .pdf, depending on the file type
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

@@ -9,19 +9,10 @@ export const store = configureStore({
 	},
 	middleware: getDefaultMiddleware =>
 		getDefaultMiddleware({
-			serializableCheck: {
-				// Ignore paths in RTK Query state if they're storing non-serializable data
-				ignoredPaths: [apiSlice.reducerPath],
-				// or you can ignore the specific RTK Query action types, e.g.:
-				// ignoredActions: [
-				//   'api/executeQuery/pending',
-				//   'api/executeQuery/fulfilled',
-				//   'api/executeQuery/rejected',
-				// ],
-			  },
+			serializableCheck: false, 
 		}).concat(apiSlice.middleware),
 	devTools: process.env.NODE_ENV !== 'production',
 });
 
 export type RootState = ReturnType<(typeof store)['getState']>;
-export type AppDispatch = (typeof store)['dispatch'];
+export type AppDispatch = (typeof store)['dispatch'];	
