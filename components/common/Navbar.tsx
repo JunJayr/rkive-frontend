@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import Sidebar from '@/components/common/Sidebar';
 import { useRetrieveUserQuery, useLogoutMutation } from '@/redux/features/authApiSlice';
 import { useAppDispatch } from '@/redux/hooks';
-import { startLogout, finishLogout } from '@/redux/features/authSlice';
+import { logout as setLogout } from '@/redux/features/authSlice';
 import { toast } from 'react-toastify';
 
 export default function Navbar() {
@@ -25,10 +25,11 @@ export default function Navbar() {
 
   const handleLogout = async () => {
     try {
-      await logout(undefined).unwrap(); 
-      dispatch(setLogout()); 
+      await logout(undefined).unwrap();
+      dispatch(setLogout());
       toast.success('Logged out');
-      router.push('/auth/login'); // <-- handle redirect in the component logic
+      // Navigate to /auth/login on success
+      router.push('/auth/login');
     } catch (error) {
       toast.error('Failed to logout');
     }
