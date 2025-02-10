@@ -56,14 +56,20 @@ export default function PanelForm() {
           ) : (
             <form
               onSubmit={handleSubmit}
-              className="px-4 md:px-8 max-w-3xl mx-auto py-12 space-y-12"
+              className="px-4 md:px-8 max-w-3xl mx-auto space-y-6" // Reduced overall padding
             >
-              {/* Research Title & Lead Researcher */}
-              <div className="border-b border-gray-900/10 pb-12">
-                <h2 className="text-base font-semibold leading-7 text-gray-900 dark:text-gray-100">
-                  Research Details
-                </h2>
-                <div className="mt-6 space-y-4">
+              {/* Header */}
+              <div className="text-center mb-6"> {/* Added margin-bottom to header */}
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">ACME CITY</h1>
+                <p className="text-sm text-gray-600 dark:text-gray-400">123 Maple Street, Houston, TX, 77002</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">example@example.com | www.example.com | (123) 123-4567</p>
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mt-4">STUDENT REGISTRATION FORM</h2>
+              </div>
+
+              {/* Research Title */}
+              <div className="border-b border-gray-900/10"> {/* Reduced padding-bottom */}
+              
+                <div className="space-y-4"> {/* Reduced margin-top */}
                   <div>
                     <label
                       htmlFor="research_title"
@@ -77,10 +83,17 @@ export default function PanelForm() {
                       id="research_title"
                       value={formData.research_title}
                       onChange={handleChange}
-                      className="block w-full mt-2 p-1.5 text-gray-900 dark:text-white bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-indigo-600 focus:border-indigo-600 sm:text-sm"
+                      className="block w-full mt-1 p-1.5 text-gray-900 dark:text-white bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-indigo-600 focus:border-indigo-600 sm:text-sm"
                       required
                     />
                   </div>
+                </div>
+              </div>
+
+              {/* Research Proponents and Lead Researcher */}
+              <div className="border-b border-gray-900/10"> {/* Reduced padding-bottom */}
+                
+                <div className="space-y-4"> {/* Reduced margin-top */}
                   <div>
                     <label
                       htmlFor="lead_researcher"
@@ -94,22 +107,14 @@ export default function PanelForm() {
                       id="lead_researcher"
                       value={formData.lead_researcher}
                       onChange={handleChange}
-                      className="block w-full mt-2 p-1.5 text-gray-900 dark:text-white bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-indigo-600 focus:border-indigo-600 sm:text-sm"
+                      className="block w-full mt-1 p-1.5 text-gray-900 dark:text-white bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-indigo-600 focus:border-indigo-600 sm:text-sm"
                       required
                     />
                   </div>
-                </div>
-              </div>
-
-              {/* Research Proponents */}
-              <div className="border-b border-gray-900/10 pb-12">
-                <h2 className="text-base font-semibold leading-7 text-gray-900 dark:text-gray-100">
-                  Research Proponents
-                </h2>
-                <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                  Enter the names of all individuals contributing to the research.
-                </p>
-                <div className="mt-6 space-y-4">
+                  <h2 className="text-base font-semibold leading-7 text-gray-900 dark:text-gray-100">Research Proponents</h2>
+                  <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                    Enter the names of all individuals contributing to the research.
+                  </p>
                   {[1, 2, 3, 4, 5].map((index) => (
                     <div key={index} className="flex items-center gap-x-3">
                       <span className="text-gray-900 dark:text-gray-100">{index}.</span>
@@ -126,14 +131,12 @@ export default function PanelForm() {
               </div>
 
               {/* Panel Information */}
-              <div className="border-b border-gray-900/10 pb-12">
-                <h2 className="text-base font-semibold leading-7 text-gray-900 dark:text-gray-100">
-                  Panel Information
-                </h2>
+              <div className="border-b border-gray-900/10"> {/* Reduced padding-bottom */}
+                <h2 className="text-base font-semibold leading-7 text-gray-900 dark:text-gray-100">Panel Information</h2>
                 <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
                   Enter the details of the panel members evaluating the research.
                 </p>
-                <div className="mt-6 space-y-4">
+                <div className="space-y-4"> {/* Reduced margin-top */}
                   <div>
                     <label
                       htmlFor="panel_chair"
@@ -147,7 +150,7 @@ export default function PanelForm() {
                       id="panel_chair"
                       value={formData.panel_chair}
                       onChange={handleChange}
-                      className="block w-full mt-2 p-1.5 text-gray-900 dark:text-white bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-indigo-600 focus:border-indigo-600 sm:text-sm"
+                      className="block w-full mt-1 p-1.5 text-gray-900 dark:text-white bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-indigo-600 focus:border-indigo-600 sm:text-sm"
                       required
                     />
                   </div>
@@ -164,7 +167,7 @@ export default function PanelForm() {
                       id="adviser"
                       value={formData.adviser}
                       onChange={handleChange}
-                      className="block w-full mt-2 p-1.5 text-gray-900 dark:text-white bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-indigo-600 focus:border-indigo-600 sm:text-sm"
+                      className="block w-full mt-1 p-1.5 text-gray-900 dark:text-white bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-indigo-600 focus:border-indigo-600 sm:text-sm"
                       required
                     />
                   </div>
@@ -186,6 +189,7 @@ export default function PanelForm() {
                 </div>
               </div>
 
+              {/* Submit Button */}
               <button
                 type="submit"
                 className="w-full py-2 px-4 bg-indigo-600 text-white rounded-md hover:bg-indigo-500"
