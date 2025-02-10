@@ -2,7 +2,6 @@
 
 import { useRetrieveUserQuery } from '@/redux/features/authApiSlice';
 import { List, Spinner } from '@/components/common';
-import Navbar from '@/components/common/Navbar'; // Import the Navbar component
 import Sidebar from '@/components/common/Sidebar';
 import Footer from '@/components/common/Footer';
 
@@ -11,14 +10,17 @@ export default function ProfileForm() {
 
     const config = [
         {
+            key: 'first_name',
             label: 'First Name',
             value: user?.first_name,
         },
         {
+            key: 'last_name',
             label: 'Last Name',
             value: user?.last_name,
         },
         {
+            key: 'email',
             label: 'Email',
             value: user?.email,
         },
@@ -33,19 +35,45 @@ export default function ProfileForm() {
     }
 
     return (
-        <>
-			{/* Sidebar */}
+        <div className="min-h-screen bg-brandNavy-50 text-brandNavy-600 dark:bg-gray-900 dark:text-gray-100 relative">
+            {/* Sidebar */}
             <Sidebar />
-
-            {/* Navbar */}
-            <Navbar />
 
             {/* Main Content */}
             <main className="pt-20 mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-                {/* Added padding-top (pt-20) to create space for the navbar */}
-                <List config={config} />
+                {/* Title & Description */}
+                <div className="mx-auto flex flex-col items-center py-12 sm:py-24">
+                    <div className="w-11/12 sm:w-2/3 lg:flex justify-center items-center flex-col mb-5 sm:mb-10">
+                        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-center text-brandNavy-600 dark:text-gray-100">
+                            Profile
+                        </h1>
+                        <p className="mt-5 sm:mt-10 text-center text-xl text-brandNavy-400 dark:text-gray-400 lg:w-10/12">
+                            View and manage your account details.
+                        </p>
+                    </div>
+                    {/* Profile List */}
+                    <div className="w-full max-w-3xl bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md border border-brandNavy-300 dark:border-gray-700">
+                        <List
+                            config={config.map(({ key, label, value }) => ({
+                                key,
+                                label: (
+                                    <span className="text-gray-900 dark:text-white font-semibold">
+                                        {label}
+                                    </span>
+                                ),
+                                value: (
+                                    <span className="text-gray-700 dark:text-gray-300">
+                                        {value}
+                                    </span>
+                                ),
+                            }))}
+                        />
+                    </div>
+                </div>
             </main>
-			<Footer />
-        </>
+
+            {/* Footer */}
+            <Footer />
+        </div>
     );
 }
