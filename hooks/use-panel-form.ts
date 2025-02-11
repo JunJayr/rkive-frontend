@@ -4,11 +4,11 @@ import { usePanelGenerateMutation } from '@/redux/features/authApiSlice';
 
 interface PanelFormData {
   research_title: string;
-  co_researcher: string;
   co_researcher1: string;
   co_researcher2: string;
   co_researcher3: string;
   co_researcher4: string;
+  co_researcher5: string;
   lead_researcher: string;
   adviser: string;
   panel_chair: string;
@@ -19,11 +19,11 @@ interface PanelFormData {
 
 const initialFormState: PanelFormData = {
   research_title: '',
-  co_researcher: '',
   co_researcher1: '',
   co_researcher2: '',
   co_researcher3: '',
   co_researcher4: '',
+  co_researcher5: '',
   lead_researcher: '',
   adviser: '',
   panel_chair: '',

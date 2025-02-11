@@ -53,21 +53,7 @@ export default function ProfileForm() {
                     </div>
                     {/* Profile List */}
                     <div className="w-full max-w-3xl bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md border border-brandNavy-300 dark:border-gray-700">
-                        <List
-                            config={config.map(({ key, label, value }) => ({
-                                key,
-                                label: (
-                                    <span className="text-gray-900 dark:text-white font-semibold">
-                                        {label}
-                                    </span>
-                                ),
-                                value: (
-                                    <span className="text-gray-700 dark:text-gray-300">
-                                        {value}
-                                    </span>
-                                ),
-                            }))}
-                        />
+                        <List config={config} />
                     </div>
                 </div>
             </main>
