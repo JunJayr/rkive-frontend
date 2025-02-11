@@ -6,11 +6,11 @@ interface ApplicationFormData {
   department: string;
   lead_researcher: string;
   lead_contactno: string;
-  co_researcher: string;
   co_researcher1: string;
   co_researcher2: string;
   co_researcher3: string;
   co_researcher4: string;
+  co_researcher5: string;
   research_title: string;
   datetime_defense: string;
   place_defense: string;
@@ -26,11 +26,11 @@ const initialFormState: ApplicationFormData = {
   department: '',
   lead_researcher: '',
   lead_contactno: '',
-  co_researcher: '',
   co_researcher1: '',
   co_researcher2: '',
   co_researcher3: '',
   co_researcher4: '',
+  co_researcher5: '',
   research_title: '',
   datetime_defense: '',
   place_defense: '',

@@ -15,11 +15,11 @@ export default function SearchPage() {
 
   // 2) Fetch manuscripts based on the search term
   const {
-    data: manuscripts = [], // FIX: Default value to prevent undefined errors
+    data: manuscripts = [],
     isLoading: isSearching,
     isError: searchError,
   } = useSearchManuscriptsQuery(query, {
-    skip: !query, // Skip the query if there's no search term
+    skip: !query,
   });
 
   // 3) Update the local state whenever the route's query changes
@@ -38,28 +38,26 @@ export default function SearchPage() {
   // 5) Handle result click to open the PDF in a new tab
   const handleResultClick = (pdfUrl: string) => {
     if (pdfUrl) {
-      console.log("Opening PDF:", pdfUrl); // Debugging: Check the actual URL in the console
-  
-      // Open the PDF in a new tab with the correct URL
+      console.log("Opening PDF:", pdfUrl);
       window.open(pdfUrl, '_blank', 'noopener,noreferrer');
     }
   };
-  
-  
 
   return (
-    <div className="relative min-h-screen bg-white">
+    <div className="min-h-screen bg-brandNavy-50 text-brandNavy-600 dark:bg-gray-900 dark:text-gray-100 relative">
       {/* Sidebar */}
       <Sidebar />
 
       {/* Search Bar */}
       <div className="fixed top-3 left-20 z-10 w-2/3">
-        <form onSubmit={handleSearch}>
-          <div className="relative">
+        <form onSubmit={handleSearch} className="flex w-full">
+          <div className="flex w-full rounded-md shadow-sm">
             <input
               type="search"
               id="search"
-              className="block p-4 pl-10 w-full text-sm text-gray-900 bg-gray-100 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full p-3 rounded-l-md border border-brandNavy-300 dark:border-gray-700
+                         bg-white dark:bg-gray-800 placeholder-brandNavy-300
+                         focus:outline-none focus:border-brandGold-400"
               placeholder="Search for manuscripts..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -67,9 +65,11 @@ export default function SearchPage() {
             />
             <button
               type="submit"
-              className="absolute right-2.5 bottom-2.5 bg-yellow-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-yellow-600"
+              className="inline-flex items-center gap-2 bg-brandGold-400 hover:bg-brandGold-500 text-brandNavy-900
+                         font-semibold py-3 px-6 rounded-r-md focus:outline-none"
+              disabled={isSearching}
             >
-              Search
+              {isSearching ? <Spinner sm /> : <span>Search</span>}
             </button>
           </div>
         </form>
@@ -85,21 +85,22 @@ export default function SearchPage() {
             </p>
           )}
 
-          {/* Render the list of manuscripts if we have any */}
-          {manuscripts.length > 0 ? ( // FIX: manuscripts always has a default value now
+          {/* Render the list of manuscripts */}
+          {manuscripts.length > 0 ? (
             <ul className="space-y-4">
               {manuscripts.map((manuscript: any) => (
                 <li
                   key={manuscript.id}
-                  onClick={() => handleResultClick(manuscript.pdf_url)} // Open PDF directly
-                  className="p-4 bg-gray-100 rounded-lg shadow hover:bg-gray-200 transition cursor-pointer"
+                  onClick={() => handleResultClick(manuscript.pdf_url)}
+                  className="p-4 bg-brandNavy-100 dark:bg-gray-800 rounded-lg shadow 
+                             hover:bg-brandNavy-200 dark:hover:bg-gray-700 transition cursor-pointer"
                 >
                   <div className="flex flex-col">
-                    <span className="text-lg font-medium text-blue-500 hover:underline">
+                    <span className="text-lg font-medium text-brandNavy-600 dark:text-gray-100">
                       {manuscript.title}
                     </span>
                     {manuscript.description && (
-                      <p className="text-sm text-gray-600 mt-1">
+                      <p className="text-sm text-brandNavy-400 dark:text-gray-400 mt-1">
                         {manuscript.description}
                       </p>
                     )}
@@ -109,7 +110,7 @@ export default function SearchPage() {
             </ul>
           ) : (
             !isSearching && (
-              <p className="text-gray-500 text-center">
+              <p className="text-brandNavy-400 dark:text-gray-400 text-center">
                 No results found for "{query}".
               </p>
             )
