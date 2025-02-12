@@ -1,6 +1,7 @@
 'use client';
 
 import { useApplicationGeneration } from '@/hooks';
+import DateFormatter from '@/components/utils/DateFormatter'; 
 import Spinner from '@/components/common/Spinner';
 import Footer from '@/components/common/Footer';
 import Sidebar from '@/components/common/Sidebar';

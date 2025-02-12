@@ -20,6 +20,8 @@ interface ApplicationFormData {
   panel2: string;
   panel3: string;
   documenter: string;
+  [key: `co_researcher${number}`]: string;
+  [key: `panel${number}`]: string;
 }
 
 const initialFormState: ApplicationFormData = {
@@ -67,9 +69,23 @@ export default function useApplicationGeneration() {
   // Submit form -> generate doc -> store returned object URL in state
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+  
     try {
-      // The new API slice returns a string (object URL) directly
-      const docUrl = await applicationGenerate(formData).unwrap();
+      // Format the datetime_defense before sending
+      const formattedData = {
+        ...formData,
+        datetime_defense: new Date(formData.datetime_defense).toLocaleString('en-US', {
+          month: 'long',
+          day: 'numeric',
+          year: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+          hour12: true,
+        }), // Converts to "May 31, 2024 @ 12:00 pm"
+      };
+  
+      // Send the formatted data
+      const docUrl = await applicationGenerate(formattedData).unwrap();
       setPreviewUrl(docUrl);
       toast.success('Document is ready to view or download!');
     } catch (error: any) {

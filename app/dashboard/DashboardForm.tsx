@@ -4,7 +4,7 @@ import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Sidebar from '@/components/common/Sidebar';
 import Footer from '@/components/common/Footer';
-import Spinner from '@/components/common/Spinner'; // Import Spinner Component
+import Spinner from '@/components/common/Spinner';
 
 export default function Dashboard() {
   const [searchTerm, setSearchTerm] = useState('');

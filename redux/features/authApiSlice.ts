@@ -10,11 +10,11 @@ interface ApplicationFormData {
   department: string;
   lead_researcher: string;
   lead_contactno: string;
-  co_researcher: string;
   co_researcher1: string;
   co_researcher2: string;
   co_researcher3: string;
   co_researcher4: string;
+  co_researcher5: string;
   research_title: string;
   datetime_defense: string;
   place_defense: string;
@@ -28,11 +28,11 @@ interface ApplicationFormData {
 
 interface PanelFormData {
   research_title: string;
-  co_researcher: string;
   co_researcher1: string;
   co_researcher2: string;
   co_researcher3: string;
   co_researcher4: string;
+  co_researcher5: string;
   lead_researcher: string;
   adviser: string;
   panel_chair: string;
