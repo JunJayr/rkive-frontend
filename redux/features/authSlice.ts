@@ -22,9 +22,9 @@ const authSlice = createSlice({
   reducers: {
 		setAuth: (state, action: PayloadAction<{ isSuperuser: boolean; isStaff: boolean; isActive: boolean }>) => {
 		state.isAuthenticated = true;
-		state.isSuperuser = action.payload.isSuperuser;
-		state.isStaff = action.payload.isStaff;
-		state.isActive = action.payload.isActive;
+		state.isSuperuser = action.payload.isSuperuser ?? false;
+		state.isStaff = action.payload.isStaff ?? false;
+		state.isActive = action.payload.isActive ?? false;
 		},
 		logout: (state) => {
 		state.isAuthenticated = false;

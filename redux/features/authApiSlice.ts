@@ -41,7 +41,13 @@ interface PanelFormData {
   panel3: string;
 }
 
+interface DocumentCount {
+	generated_documents_count: number;
+	manuscripts_count: number;
+  }
+
 const authApiSlice = apiSlice.injectEndpoints({
+	
 	overrideExisting: true,
 	endpoints: (builder) => ({
 		retrieveUser: builder.query<User, void>({
@@ -133,6 +139,39 @@ const authApiSlice = apiSlice.injectEndpoints({
 			query: (searchQuery) => `/manuscripts/?q=${encodeURIComponent(searchQuery)}`,
 			transformResponse: (response: any[]) => response, // Ensure it returns an array
 		}),
+
+		// Retrieve Stats for Admin
+		getDocumentCount: builder.query<DocumentCount, void>({
+			query: () => '/document-count/',
+		}),
+		listFiles: builder.query<any[], void>({
+			query: () => '/list-files/',
+		}),
+
+		listUsers: builder.query<any[], void>({
+			query: () => '/list-users/',
+		}),
+
+		addUser: builder.mutation({
+			query: ({ first_name, last_name, email, password, repassword }) => ({
+				url: '/list-users/',
+				method: 'POST',
+				body: { first_name, last_name, email, password, repassword },
+			}),
+		}),
+		updateUser: builder.mutation({
+			query: ({ userId, userData }) => ({
+			  url: `/list-users/${userId}/`,
+			  method: 'PUT',
+			  body: userData,
+			}),
+		}),
+		deleteUser: builder.mutation({
+			query: (userId) => ({
+			  url: `/list-users/${userId}/`,
+			  method: 'DELETE',
+			}),
+		}),
 	}),
 });
 
@@ -151,4 +190,11 @@ export const {
 
   useManuscriptSubmissionMutation,
   useSearchManuscriptsQuery,
+
+  useGetDocumentCountQuery,
+  useListFilesQuery,
+  useListUsersQuery,
+  useAddUserMutation,
+  useUpdateUserMutation,
+  useDeleteUserMutation,
 } = authApiSlice;

@@ -1,83 +1,269 @@
 'use client';
 
 import { useState } from 'react';
+import { Spinner } from '@/components/common';
 import Sidebar from '@/components/common/Sidebar';
 import Footer from '@/components/common/Footer';
-import Spinner from '@/components/common/Spinner';
+import { CheckCircleIcon, XCircleIcon } from 'lucide-react';
+import { useAdminDashboard } from '@/hooks';
 
 export default function AdminDashboard() {
-  const [loading, setLoading] = useState(false);
+  const {
+    users,
+    documentCount,
+    loading,
+    selectedUser,
+    showModal,
+    handleUserClick,
+    handleInputChange,
+    handleSave,
+    handleDelete,
+    setShowModal,
+  } = useAdminDashboard();
+
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [newUser, setNewUser] = useState({
+    first_name: '',
+    last_name: '',
+    email: '',
+    is_active: false,
+    is_staff: false,
+    is_superuser: false,
+  });
+
+  const handleAddInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, type, checked } = e.target;
+    setNewUser((prev) => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value,
+    }));
+  };
+
+  const handleAddUser = () => {
+    // Placeholder for actual add user logic (e.g., API call)
+    console.log('Adding new user:', newUser);
+    setShowAddModal(false);
+  };
+
+  const overviewConfig = [
+    { key: 'totalAccounts', label: 'Total Accounts', value: (users?.length || 0).toString() },
+    {
+      key: 'generatedDocumentsCount',
+      label: 'Generated Documents Count',
+      value: (documentCount?.generated_documents_count || '0').toString(),
+    },
+    { key: 'manuscriptsCount', label: 'Manuscripts Count', value: (documentCount?.manuscripts_count || 0).toString() },
+  ];
+
+  if (loading) {
+    return (
+      <div className="flex justify-center my-8">
+        <Spinner lg />
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-brandNavy-50 text-brandNavy-600 dark:bg-gray-900 dark:text-gray-100 relative">
-      {/* Sidebar */}
+    <div className="min-h-screen bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-100">
       <Sidebar />
-
-      {/* Main Content */}
-      <main className="pt-16">
-        <div className="mx-auto py-12 sm:py-24 px-4">
-          <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-center text-brandNavy-600 dark:text-gray-100 mb-10">
+      <main className="pt-20 mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+        <div className="mx-auto flex flex-col py-12">
+          <h1 className="text-4xl font-extrabold tracking-tight text-center text-gray-900 dark:text-gray-100">
             Admin Dashboard
           </h1>
-
-          {/* Admin Panel Overview */}
-          <section className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-16">
-            <div className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
-              <h2 className="text-xl font-bold">Total Users</h2>
-              <p className="text-3xl font-extrabold mt-4">1,234</p>
-            </div>
-
-            <div className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
-              <h2 className="text-xl font-bold">Active Users</h2>
-              <p className="text-3xl font-extrabold mt-4">456</p>
-            </div>
-
-            <div className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
-              <h2 className="text-xl font-bold">Reports</h2>
-              <p className="text-3xl font-extrabold mt-4">12</p>
-            </div>
-          </section>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-10">
+            {overviewConfig.map((item) => (
+              <div
+                key={item.key}
+                className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md border border-gray-300 dark:border-gray-700 flex flex-col items-center"
+              >
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">{item.value}</h2>
+                <p className="text-gray-500 dark:text-gray-400 mt-2">{item.label}</p>
+              </div>
+            ))}
+          </div>
 
           {/* User Management Table */}
-          <section className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-            <h2 className="text-2xl font-bold mb-6">User Management</h2>
-            {loading ? (
-              <div className="flex justify-center items-center">
-                <Spinner />
-              </div>
-            ) : (
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr>
-                    <th className="border-b-2 border-gray-300 py-2 px-4">Name</th>
-                    <th className="border-b-2 border-gray-300 py-2 px-4">Email</th>
-                    <th className="border-b-2 border-gray-300 py-2 px-4">Role</th>
-                    <th className="border-b-2 border-gray-300 py-2 px-4">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td className="py-3 px-4">John Doe</td>
-                    <td className="py-3 px-4">johndoe@example.com</td>
-                    <td className="py-3 px-4">User</td>
-                    <td className="py-3 px-4">
-                      <button className="bg-brandGold-400 hover:bg-brandGold-500 text-brandNavy-900 font-semibold px-4 py-2 rounded">
-                        Edit
-                      </button>
-                      <button className="ml-4 bg-red-500 hover:bg-red-600 text-white font-semibold px-4 py-2 rounded">
-                        Delete
-                      </button>
+          <div className="w-full bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md border border-gray-300 dark:border-gray-700">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold">User Management</h2>
+              <button
+                onClick={() => setShowAddModal(true)}
+                className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600"
+              >
+                Add Account
+              </button>
+            </div>
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr>
+                  <th className="border-b-2 border-gray-300 py-2 px-4">First Name</th>
+                  <th className="border-b-2 border-gray-300 py-2 px-4">Last Name</th>
+                  <th className="border-b-2 border-gray-300 py-2 px-4">Email</th>
+                  <th className="border-b-2 border-gray-300 py-2 px-4">Is Active</th>
+                  <th className="border-b-2 border-gray-300 py-2 px-4">Is Staff</th>
+                  <th className="border-b-2 border-gray-300 py-2 px-4">Is Superuser</th>
+                </tr>
+              </thead>
+              <tbody>
+                {users?.map((user) => (
+                  <tr key={user.id} className="border-b border-gray-200 dark:border-gray-700">
+                    <td className="py-3 px-4 text-blue-500 cursor-pointer hover:underline" onClick={() => handleUserClick(user)}>
+                      {user.first_name}
                     </td>
+                    <td className="py-3 px-4">{user.last_name}</td>
+                    <td className="py-3 px-4">{user.email}</td>
+                    <td className="py-3 px-4">{user.is_active ? <CheckCircleIcon className="text-green-500" /> : <XCircleIcon className="text-red-500" />}</td>
+                    <td className="py-3 px-4">{user.is_staff ? <CheckCircleIcon className="text-green-500" /> : <XCircleIcon className="text-red-500" />}</td>
+                    <td className="py-3 px-4">{user.is_superuser ? <CheckCircleIcon className="text-green-500" /> : <XCircleIcon className="text-red-500" />}</td>
                   </tr>
-                  {/* Add more rows as necessary */}
-                </tbody>
-              </table>
-            )}
-          </section>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Add Account Modal */}
+          {showAddModal && (
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-96">
+                <h2 className="text-2xl font-bold mb-4">Add New Account</h2>
+                <div className="mb-4">
+                  <label className="block text-sm font-medium">First Name</label>
+                  <input
+                    type="text"
+                    name="first_name"
+                    value={newUser.first_name}
+                    onChange={handleAddInputChange}
+                    className="w-full p-2 border rounded-lg text-black"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block text-sm font-medium">Last Name</label>
+                  <input
+                    type="text"
+                    name="last_name"
+                    value={newUser.last_name}
+                    onChange={handleAddInputChange}
+                    className="w-full p-2 border rounded-lg text-black"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block text-sm font-medium">Email</label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={newUser.email}
+                    onChange={handleAddInputChange}
+                    className="w-full p-2 border rounded-lg text-black"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block text-sm font-medium">Is active</label>
+                  <input
+                    type="checkbox"
+                    name="is_active"
+                    checked={newUser.is_active}
+                    onChange={handleAddInputChange}
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block text-sm font-medium">Is staff</label>
+                  <input
+                    type="checkbox"
+                    name="is_staff"
+                    checked={newUser.is_staff}
+                    onChange={handleAddInputChange}
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block text-sm font-medium">Is superuser</label>
+                  <input
+                    type="checkbox"
+                    name="is_superuser"
+                    checked={newUser.is_superuser}
+                    onChange={handleAddInputChange}
+                  />
+                </div>
+                <div className="flex justify-between mt-6">
+                  <button onClick={handleAddUser} className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Add</button>
+                  <button onClick={() => setShowAddModal(false)} className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600">Cancel</button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* User Edit Modal */}
+          {showModal && selectedUser && (
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-96">
+                <h2 className="text-2xl font-bold mb-4">Edit User</h2>
+                <div className="mb-4">
+                  <label className="block text-sm font-medium">First Name</label>
+                  <input
+                    type="text"
+                    name="first_name"
+                    value={selectedUser.first_name}
+                    onChange={handleInputChange}
+                    className="w-full p-2 border rounded-lg text-black"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block text-sm font-medium">Last Name</label>
+                  <input
+                    type="text"
+                    name="last_name"
+                    value={selectedUser.last_name}
+                    onChange={handleInputChange}
+                    className="w-full p-2 border rounded-lg text-black"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block text-sm font-medium">Email</label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={selectedUser.email}
+                    onChange={handleInputChange}
+                    className="w-full p-2 border rounded-lg text-black"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block text-sm font-medium">Is active</label>
+                  <input
+                    type="checkbox"
+                    name="is_active"
+                    checked={!!selectedUser.is_active}
+                    onChange={(e) => handleInputChange({ target: { name: 'is_active', value: e.target.checked } } as any)}
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block text-sm font-medium">Is staff</label>
+                  <input
+                    type="checkbox"
+                    name="is_staff"
+                    checked={!!selectedUser.is_staff}
+                    onChange={(e) => handleInputChange({ target: { name: 'is_staff', value: e.target.checked } } as any)}
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block text-sm font-medium">Is superuser</label>
+                  <input
+                    type="checkbox"
+                    name="is_superuser"
+                    checked={!!selectedUser.is_superuser}
+                    onChange={(e) => handleInputChange({ target: { name: 'is_superuser', value: e.target.checked } } as any)}
+                  />
+                </div>
+                <div className="flex justify-between mt-6">
+                  <button onClick={handleSave} className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Save</button>
+                  <button onClick={handleDelete} className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">Delete</button>
+                  <button onClick={() => setShowModal(false)} className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600">Cancel</button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </main>
-
-      {/* Footer */}
       <Footer />
     </div>
   );
