@@ -58,7 +58,13 @@ const authApiSlice = apiSlice.injectEndpoints({
 				url: '/jwt/create/',
 				method: 'POST',
 				body: { email, password },
+			}),
 		}),
+		getUserRole: builder.mutation<{ is_superuser: boolean; is_staff: boolean; is_active: boolean }, {}>({
+			query: () => ({
+				url: '/user-role/',
+				method: 'GET',
+			}),
 		}),
 		register: builder.mutation({
 			query: ({ first_name, last_name, email, password, re_password }) => ({
@@ -178,6 +184,7 @@ const authApiSlice = apiSlice.injectEndpoints({
 export const {
   useRetrieveUserQuery,
   useLoginMutation,
+  useGetUserRoleMutation,
   useRegisterMutation,
   useVerifyMutation,
   useLogoutMutation,

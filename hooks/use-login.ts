@@ -1,14 +1,15 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAppDispatch } from '@/redux/hooks';
-import { useLoginMutation } from '@/redux/features/authApiSlice';
-import { setAuth } from '@/redux/features/authSlice';
+import { useLoginMutation, useGetUserRoleMutation } from '@/redux/features/authApiSlice';
+import { setAuthLogin } from '@/redux/features/authSlice';
 import { toast } from 'react-toastify';
 
 export default function useLogin() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [login, { isLoading }] = useLoginMutation();
+  const [getUserRole] = useGetUserRoleMutation();
 
   const [formData, setFormData] = useState({
     email: '',
@@ -22,35 +23,33 @@ export default function useLogin() {
     setFormData({ ...formData, [name]: value });
   };
 
-  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (event: FormEvent<HTMLFormElement>) => { 
     event.preventDefault();
 
-    login({ email, password })
-      .unwrap()
-      .then((response) => {
-        // Store authentication status in Redux
-        dispatch(setAuth({
-          isSuperuser: response.is_superuser,
-          isStaff: response.is_staff,
-          isActive: response.is_active,
-        }));
+    try {
+      const loginResponse = await login({ email, password }).unwrap();
+      const roleResponse = await getUserRole({}).unwrap();
 
-        toast.success('Logged in');
+      dispatch(setAuthLogin({
+        isSuperuser: roleResponse.is_superuser,
+        isStaff: roleResponse.is_staff,
+        isActive: roleResponse.is_active,
+      }));
+      toast.success('Logged in');
 
-        // Role-based navigation
-        if (response.is_superuser && response.is_staff && response.is_active) {
-          router.push('/admin/dashboard');
-        } else if (response.is_staff && response.is_active) {
-          router.push('/staff/dashboard');
-        } else if (response.is_active) {
-          router.push('/dashboard');
-        } else {
-          toast.error('Account is not active');
-        }
-      })
-      .catch(() => {
-        toast.error('Failed to log in');
-      });
+      if (roleResponse.is_superuser && roleResponse.is_staff && roleResponse.is_active) {
+        router.push('/admin/dashboard');
+      } else if (roleResponse.is_staff && roleResponse.is_active) {
+        router.push('/staff/dashboard');
+      } else if (roleResponse.is_active) {
+        router.push('/dashboard');
+      } else {
+        toast.error('Account is not active');
+      }
+
+    } catch (error) {
+      toast.error('Failed to log in');
+    }
   };
 
   return {

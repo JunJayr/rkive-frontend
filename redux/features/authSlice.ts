@@ -1,42 +1,43 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface AuthState {
-  isAuthenticated: boolean;
-  isLoading: boolean;
-  isSuperuser: boolean;
-  isStaff: boolean;
-  isActive: boolean;
+	isAuthenticated: boolean;
+	isLoading: boolean;
+	isSuperuser: boolean;
+	isStaff: boolean;
+	isActive: boolean;
 }
 
 const initialState: AuthState = {
-  isAuthenticated: false,
-  isLoading: true,
-  isSuperuser: false,
-  isStaff: false,
-  isActive: false,
+	isAuthenticated: false,
+	isLoading: true,
+	isSuperuser: false,
+	isStaff: false,
+	isActive: false,
 };
 
 const authSlice = createSlice({
-  name: 'auth',
-  initialState,
-  reducers: {
-		setAuth: (state, action: PayloadAction<{ isSuperuser: boolean; isStaff: boolean; isActive: boolean }>) => {
-		state.isAuthenticated = true;
-		state.isSuperuser = action.payload.isSuperuser ?? false;
-		state.isStaff = action.payload.isStaff ?? false;
-		state.isActive = action.payload.isActive ?? false;
+	name: 'auth',
+	initialState,
+	reducers: {
+		setAuth: state => {
+			state.isAuthenticated = true;
 		},
-		logout: (state) => {
-		state.isAuthenticated = false;
-		state.isSuperuser = false;
-		state.isStaff = false;
-		state.isActive = false;
+		setAuthLogin: (state, action: PayloadAction<{ isSuperuser: boolean; isStaff: boolean; isActive: boolean }>) => {
+			state.isAuthenticated = true;
+			state.isSuperuser = action.payload.isSuperuser;
+			state.isStaff = action.payload.isStaff;
+			state.isActive = action.payload.isActive;
 		},
-		finishInitialLoad: (state) => {
-		state.isLoading = false;
+		logout: state => {
+			state.isAuthenticated = false;
 		},
-  	},
+		finishInitialLoad: state => {
+			state.isLoading = false;
+		},
+	},
 });
 
-export const { setAuth, logout, finishInitialLoad } = authSlice.actions;
+export const { setAuth, setAuthLogin, logout, finishInitialLoad } = authSlice.actions;
 export default authSlice.reducer;
+ 

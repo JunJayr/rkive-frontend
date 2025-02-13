@@ -40,17 +40,11 @@ export default function useAdminDashboard() {
     }
   };
 
-  const handleAddUser = async () => {
+  const handleAddUser = async (newUser: { first_name: string; last_name: string; email: string; password: string; repassword: string; }) => {
     try {
-      const newUser = {
-        first_name: "Jane",
-        last_name: "Doe",
-        email: "jane.doe@example.com",
-        password: "password123",
-        repassword: "password123",
-      };
       const response = await addUser(newUser).unwrap();
       console.log("User added successfully:", response);
+      refetch();
     } catch (error) {
       console.error("Error adding user:", error);
     }
@@ -90,6 +84,7 @@ export default function useAdminDashboard() {
     showModal,
     handleUserClick,
     handleInputChange,
+    handleAddUser,
     handleSave,
     handleDelete,
     setShowModal,

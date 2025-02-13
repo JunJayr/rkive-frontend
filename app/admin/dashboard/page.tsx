@@ -18,6 +18,7 @@ export default function AdminDashboard() {
     handleInputChange,
     handleSave,
     handleDelete,
+    handleAddUser, // <-- Extracted from useAdminDashboard
     setShowModal,
   } = useAdminDashboard();
 
@@ -26,22 +27,24 @@ export default function AdminDashboard() {
     first_name: '',
     last_name: '',
     email: '',
-    is_active: false,
-    is_staff: false,
-    is_superuser: false,
+    password: '',
+    repassword: '',
   });
 
   const handleAddInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value } = e.target;
     setNewUser((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: value,
     }));
   };
 
-  const handleAddUser = () => {
-    // Placeholder for actual add user logic (e.g., API call)
-    console.log('Adding new user:', newUser);
+  const handleAddUserClick = async () => {
+    if (newUser.password !== newUser.repassword) {
+      alert('Passwords do not match!');
+      return;
+    }
+    await handleAddUser(newUser); // <-- Call the function from the hook
     setShowAddModal(false);
   };
 
@@ -129,63 +132,26 @@ export default function AdminDashboard() {
                 <h2 className="text-2xl font-bold mb-4">Add New Account</h2>
                 <div className="mb-4">
                   <label className="block text-sm font-medium">First Name</label>
-                  <input
-                    type="text"
-                    name="first_name"
-                    value={newUser.first_name}
-                    onChange={handleAddInputChange}
-                    className="w-full p-2 border rounded-lg text-black"
-                  />
+                  <input type="text" name="first_name" value={newUser.first_name} onChange={handleAddInputChange} className="w-full p-2 border rounded-lg text-black" />
                 </div>
                 <div className="mb-4">
                   <label className="block text-sm font-medium">Last Name</label>
-                  <input
-                    type="text"
-                    name="last_name"
-                    value={newUser.last_name}
-                    onChange={handleAddInputChange}
-                    className="w-full p-2 border rounded-lg text-black"
-                  />
+                  <input type="text" name="last_name" value={newUser.last_name} onChange={handleAddInputChange} className="w-full p-2 border rounded-lg text-black" />
                 </div>
                 <div className="mb-4">
                   <label className="block text-sm font-medium">Email</label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={newUser.email}
-                    onChange={handleAddInputChange}
-                    className="w-full p-2 border rounded-lg text-black"
-                  />
+                  <input type="email" name="email" value={newUser.email} onChange={handleAddInputChange} className="w-full p-2 border rounded-lg text-black" />
                 </div>
                 <div className="mb-4">
-                  <label className="block text-sm font-medium">Is active</label>
-                  <input
-                    type="checkbox"
-                    name="is_active"
-                    checked={newUser.is_active}
-                    onChange={handleAddInputChange}
-                  />
+                  <label className="block text-sm font-medium">password</label>
+                  <input type="password" name="password" value={newUser.password} onChange={handleAddInputChange} className="w-full p-2 border rounded-lg text-black" />
                 </div>
                 <div className="mb-4">
-                  <label className="block text-sm font-medium">Is staff</label>
-                  <input
-                    type="checkbox"
-                    name="is_staff"
-                    checked={newUser.is_staff}
-                    onChange={handleAddInputChange}
-                  />
-                </div>
-                <div className="mb-4">
-                  <label className="block text-sm font-medium">Is superuser</label>
-                  <input
-                    type="checkbox"
-                    name="is_superuser"
-                    checked={newUser.is_superuser}
-                    onChange={handleAddInputChange}
-                  />
+                  <label className="block text-sm font-medium">repassword</label>
+                  <input type="repassword" name="repassword" value={newUser.repassword} onChange={handleAddInputChange} className="w-full p-2 border rounded-lg text-black" />
                 </div>
                 <div className="flex justify-between mt-6">
-                  <button onClick={handleAddUser} className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Add</button>
+                  <button onClick={handleAddUserClick} className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Add</button>
                   <button onClick={() => setShowAddModal(false)} className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600">Cancel</button>
                 </div>
               </div>

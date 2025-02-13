@@ -32,6 +32,7 @@ const baseQueryWithReauth: BaseQueryFn<
 					api,
 					extraOptions
 				);
+				
 				if (refreshResult.data) {
 					api.dispatch(setAuth());
 
