@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 import {
   useListUsersQuery,
   useGetDocumentCountQuery,
@@ -42,23 +43,23 @@ export default function useAdminDashboard() {
 
   const handleAddUser = async (newUser: { first_name: string; last_name: string; email: string; password: string; repassword: string; }) => {
     try {
-      const response = await addUser(newUser).unwrap();
-      console.log("User added successfully:", response);
+      await addUser(newUser).unwrap();
+      toast.success("User added successfully");
       refetch();
     } catch (error) {
-      console.error("Error adding user:", error);
+      toast.error("Error adding user");
     }
   };
-  
+
   const handleSave = async () => {
     if (selectedUser) {
       try {
         await updateUser({ userId: selectedUser.id, userData: selectedUser });
-        alert('User details saved!');
+        toast.success("User details updated successfully");
         refetch();
         setShowModal(false);
       } catch (error) {
-        alert('Failed to update user.');
+        toast.error("Failed to update user");
       }
     }
   };
@@ -67,11 +68,11 @@ export default function useAdminDashboard() {
     if (selectedUser) {
       try {
         await deleteUser(selectedUser.id);
-        alert('User deleted!');
+        toast.success("User deleted successfully");
         refetch();
         setShowModal(false);
       } catch (error) {
-        alert('Failed to delete user.');
+        toast.error("Failed to delete user");
       }
     }
   };

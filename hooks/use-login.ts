@@ -38,7 +38,7 @@ export default function useLogin() {
       toast.success('Logged in');
 
       if (roleResponse.is_superuser && roleResponse.is_staff && roleResponse.is_active) {
-        router.push('/admin/dashboard');
+        router.push('/admin');
       } else if (roleResponse.is_staff && roleResponse.is_active) {
         router.push('/staff/dashboard');
       } else if (roleResponse.is_active) {
