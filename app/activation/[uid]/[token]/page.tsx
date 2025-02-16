@@ -2,23 +2,22 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { use } from 'react';
 import { useActivationMutation } from '@/redux/features/authApiSlice';
 import { toast } from 'react-toastify';
 
 interface Props {
-	params: {
-		uid: string;
-		token: string;
-	};
+	params: Promise<{ uid: string; token: string }>; // params is now a Promise
 }
 
 export default function Page({ params }: Props) {
 	const router = useRouter();
 	const [activation] = useActivationMutation();
 
-	useEffect(() => {
-		const { uid, token } = params;
+	const resolvedParams = use(params); // Unwrap the promise
+	const { uid, token } = resolvedParams;
 
+	useEffect(() => {
 		activation({ uid, token })
 			.unwrap()
 			.then(() => {
@@ -30,7 +29,7 @@ export default function Page({ params }: Props) {
 			.finally(() => {
 				router.push('/auth/login');
 			});
-	}, []);
+	}, [uid, token, activation, router]);
 
 	return (
 		<div className='flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8'>
