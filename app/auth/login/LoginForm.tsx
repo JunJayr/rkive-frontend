@@ -6,7 +6,7 @@
   import { useLogin } from '@/hooks';
 
   export default function LoginForm() {
-    const { email, password, isLoading, onChange, onSubmit } = useLogin();
+    const { email, password, isLoading, errors, onChange, onSubmit } = useLogin();
 
     return (
       <div className="flex h-screen">
@@ -34,7 +34,9 @@
                   className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 placeholder:text-gray-400 focus:outline focus:outline-2 focus:outline-indigo-600 sm:text-sm/6"
                   required
                 />
+                {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
               </div>
+              
               <div className="mt-3">
                 <input
                   id="password"
@@ -46,7 +48,9 @@
                   className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 placeholder:text-gray-400 focus:outline focus:outline-2 focus:outline-indigo-600 sm:text-sm/6"
                   required
                 />
+                {errors.password && <p className="mt-1 text-sm text-red-600">{errors.password}</p>}
               </div>
+              
               <button
                 type="submit"
                 className="mt-5 w-full flex items-center justify-center rounded-md bg-indigo-800 px-3 py-1.5 text-sm font-semibold text-white hover:bg-indigo-600"
@@ -54,6 +58,7 @@
                 {isLoading ? <Spinner sm /> : 'Login'}
               </button>
             </form>
+
             <div className="mt-5 text-right text-sm">
               <a
                 href="/password-reset"

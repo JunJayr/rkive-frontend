@@ -22,20 +22,30 @@ export default function useRegister(){
   
       setFormData({ ...formData, [name]: value })
     }
-  
-    const onSubmit = (event: FormEvent<HTMLFormElement>) =>{
+
+    const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
   
-      register({ first_name, last_name, email, password, re_password })
-        .unwrap()
-        .then(() => {
-            toast.success('Please check email to verify account')
-            router.push('/auth/login')
-        })
-        .catch(() => {
-            toast.error('Failed to register account')
-        })
-    }
+      try {
+        await register({ first_name, last_name, email, password, re_password }).unwrap();
+        toast.success('Please check your email to verify your account');
+        router.push('/auth/login');
+      } catch (error: any) {
+        if (error.data) {
+          // Handle validation errors from the backend
+          Object.keys(error.data).forEach((field) => {
+            const messages = error.data[field];
+            if (Array.isArray(messages)) {
+              messages.forEach((message) => toast.error(`${message}`));
+            } else {
+              toast.error(`${messages}`);
+            }
+          });
+        } else {
+          toast.error('Failed to register account');
+        }
+      }
+    };
 
     return{
         first_name, 

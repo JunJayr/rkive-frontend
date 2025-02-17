@@ -23,8 +23,11 @@ export default function useLogin() {
     setFormData({ ...formData, [name]: value });
   };
 
+  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => { 
     event.preventDefault();
+    setErrors({}); // Clear previous errors
 
     try {
       const loginResponse = await login({ email, password }).unwrap();
@@ -35,6 +38,7 @@ export default function useLogin() {
         isStaff: roleResponse.is_staff,
         isActive: roleResponse.is_active,
       }));
+      
       toast.success('Logged in');
 
       if (roleResponse.is_superuser && roleResponse.is_staff && roleResponse.is_active) {
@@ -44,18 +48,32 @@ export default function useLogin() {
       } else if (roleResponse.is_active) {
         router.push('/dashboard');
       } else {
-        toast.error('Account is not active');
+        toast.error('Your account is not active.');
       }
 
-    } catch (error) {
-      toast.error('Failed to log in');
+    } catch (error: any) {
+      if (error.data) {
+        // Handle validation errors
+        Object.keys(error.data).forEach((field) => {
+          const messages = error.data[field];
+          if (Array.isArray(messages)) {
+            messages.forEach((message) => toast.error(`${message}`));
+          } else {
+            toast.error(`${messages}`);
+          }
+        });
+      } else {
+        toast.error('Failed to log in. Please try again later.');
+      }
     }
   };
+
 
   return {
     email,
     password,
     isLoading,
+    errors,
     onChange,
     onSubmit,
   };
