@@ -5,6 +5,7 @@ import DateFormatter from '@/components/utils/DateFormatter';
 import Spinner from '@/components/common/Spinner';
 import Footer from '@/components/common/Footer';
 import Sidebar from '@/components/common/Sidebar';
+import { RequireAuth } from '@/components/utils';
 
 export default function ApplicationForm() {
   const {
@@ -24,6 +25,7 @@ export default function ApplicationForm() {
   };
 
   return (
+    <RequireAuth> 
     <div className="flex flex-col min-h-screen bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-white">
       <Sidebar />
       <div className="flex-grow flex items-center justify-center py-20 px-4">
@@ -203,5 +205,6 @@ export default function ApplicationForm() {
       </div>
       <Footer />
     </div>
+    </RequireAuth> 
   );
 }

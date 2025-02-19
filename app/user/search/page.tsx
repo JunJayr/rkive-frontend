@@ -31,7 +31,7 @@ export default function SearchPage() {
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (searchTerm.trim()) {
-      window.location.href = `/search?q=${encodeURIComponent(searchTerm)}`;
+      window.location.href = `/user/search?q=${encodeURIComponent(searchTerm)}`;
     }
   };
 
