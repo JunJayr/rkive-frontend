@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import Sidebar from '@/components/common/Sidebar';
 import Footer from '@/components/common/Footer';
 import Spinner from '@/components/common/Spinner';
-import { RequireAuth } from '@/components/utils';
+import Layout from '@/components/utils/Layout'; // Import Layout
 
 export default function Dashboard() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -21,7 +21,7 @@ export default function Dashboard() {
   };
 
   return (
-    <RequireAuth>
+    <Layout> {/* Protect this page with RequireAuth */}
       <div className="min-h-screen bg-brandNavy-50 text-brandNavy-600 dark:bg-gray-900 dark:text-gray-100 relative">
         {/* Sidebar */}
         <Sidebar />
@@ -45,15 +45,15 @@ export default function Dashboard() {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="w-full p-3 rounded-l-md border border-brandNavy-300 dark:border-gray-700
-                             bg-white dark:bg-gray-800 placeholder-brandNavy-300
-                             focus:outline-none focus:border-brandGold-400"
+                            bg-white dark:bg-gray-800 placeholder-brandNavy-300
+                            focus:outline-none focus:border-brandGold-400"
                   placeholder="Enter a keyword..."
                   required
                 />
                 <button
                   type="submit"
                   className="inline-flex items-center gap-2 bg-brandGold-400 hover:bg-brandGold-500 text-brandNavy-900
-                             font-semibold py-3 px-6 rounded-r-md focus:outline-none"
+                            font-semibold py-3 px-6 rounded-r-md focus:outline-none"
                   disabled={loading}
                 >
                   {loading ? <Spinner sm /> : <span>Find</span>}
@@ -66,8 +66,6 @@ export default function Dashboard() {
         {/* Footer */}
         <Footer />
       </div>
-    </RequireAuth>
+    </Layout>
   );
 }
-
-export { Dashboard };
