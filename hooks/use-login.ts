@@ -27,7 +27,7 @@ export default function useLogin() {
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => { 
     event.preventDefault();
-    setErrors({}); // Clear previous errors
+    setErrors({});
 
     try {
       const loginResponse = await login({ email, password }).unwrap();
