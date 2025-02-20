@@ -35,7 +35,7 @@ export default function Sidebar() {
   };
 
   const menuItems = [
-    { name: 'Dashboard', href: '/user/dashboard', icon: <FaHome className="w-4 mr-3" /> },
+    { name: 'Dashboard', href: '/user', icon: <FaHome className="w-4 mr-3" /> },
     { name: 'Profile', href: '/user/profile', icon: <FaUser className="w-4 mr-3" /> },
     { name: 'Panel Nomination', href: '/user/forms/panel-nomination', icon: <FaUsers className="w-4 mr-3" /> },
     { name: 'Defense Application', href: '/user/forms/defense-application', icon: <FaClipboard className="w-4 mr-3" /> },
@@ -75,7 +75,7 @@ export default function Sidebar() {
             <AiOutlineMenu size={24} />
         </button>
         <div className="py-3 text-2xl text-center tracking-widest bg-gray-800 border-b-2 border-gray-800 mb-8">
-          <Link href="/user/dashboard" className="text-white" onClick={closeSidebar}>
+          <Link href="/user" className="text-white" onClick={closeSidebar}>
             Rkive
           </Link>
         </div>

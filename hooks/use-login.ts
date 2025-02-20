@@ -44,9 +44,9 @@ export default function useLogin() {
       if (roleResponse.is_superuser && roleResponse.is_staff && roleResponse.is_active) {
         router.push('/admin');
       } else if (roleResponse.is_staff && roleResponse.is_active) {
-        router.push('/staff/dashboard');
+        router.push('/staff');
       } else if (roleResponse.is_active) {
-        router.push('/user/dashboard');
+        router.push('/user');
       } else {
         toast.error('Your account is not active.');
       }
