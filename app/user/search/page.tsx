@@ -42,18 +42,18 @@ export default function SearchPage() {
 
   return (
     <Layout>
-      <div className="min-h-screen bg-brandNavy-50 text-brandNavy-600 dark:bg-gray-900 dark:text-gray-100 relative">
+      <div className="min-h-screen bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 font-inter relative">
         {/* Sidebar */}
         <Sidebar />
 
         {/* Search Bar */}
         <div className="fixed top-3 left-20 z-10 w-2/3">
           <form onSubmit={handleSearch} className="flex w-full">
-            <div className="flex w-full rounded-md shadow-sm">
+            <div className="flex w-full rounded-2xl shadow-md">
               <input
                 type="search"
                 id="search"
-                className="w-full p-3 rounded-l-md border border-brandNavy-300 dark:border-gray-700 bg-white dark:bg-gray-800 placeholder-brandNavy-300 focus:outline-none focus:border-brandGold-400"
+                className="w-full p-4 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white rounded-l-2xl focus:ring-blue-500 focus:border-blue-500 text-base shadow-sm transition-shadow duration-200"
                 placeholder="Search for manuscripts..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -61,10 +61,16 @@ export default function SearchPage() {
               />
               <button
                 type="submit"
-                className="inline-flex items-center gap-2 bg-brandGold-400 hover:bg-brandGold-500 text-brandNavy-900 font-semibold py-3 px-6 rounded-r-md focus:outline-none"
+                className="inline-flex items-center gap-2 bg-indigo-600 text-white font-semibold py-3 px-6 rounded-r-2xl hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-300 transition-colors duration-200 text-lg shadow-md"
                 disabled={isSearching}
               >
-                {isSearching ? <Spinner sm /> : <span>Search</span>}
+                {isSearching ? (
+                  <div className="flex items-center justify-center">
+                    <Spinner sm />
+                  </div>
+                ) : (
+                  'Search'
+                )}
               </button>
             </div>
           </form>
@@ -75,7 +81,7 @@ export default function SearchPage() {
           <div className="w-full max-w-4xl mt-8">
             {isSearching && <Spinner />}
             {searchError && (
-              <p className="text-red-500 text-center">
+              <p className="text-red-500 text-center text-base">
                 Failed to fetch manuscripts. Please try again later.
               </p>
             )}
@@ -87,14 +93,14 @@ export default function SearchPage() {
                   <li
                     key={manuscript.id}
                     onClick={() => handleResultClick(manuscript.pdf_url)}
-                    className="p-4 bg-brandNavy-100 dark:bg-gray-800 rounded-lg shadow hover:bg-brandNavy-200 dark:hover:bg-gray-700 transition cursor-pointer"
+                    className="p-4 bg-gray-100 dark:bg-gray-800 rounded-2xl shadow-md hover:bg-gray-200 dark:hover:bg-gray-700 transition cursor-pointer"
                   >
                     <div className="flex flex-col">
-                      <span className="text-lg font-medium text-brandNavy-600 dark:text-gray-100">
+                      <span className="text-lg font-semibold text-gray-900 dark:text-gray-100">
                         {manuscript.title}
                       </span>
                       {manuscript.description && (
-                        <p className="text-sm text-brandNavy-400 dark:text-gray-400 mt-1">
+                        <p className="text-sm text-gray-700 dark:text-gray-400 mt-1">
                           {manuscript.description}
                         </p>
                       )}
@@ -104,7 +110,7 @@ export default function SearchPage() {
               </ul>
             ) : (
               !isSearching && (
-                <p className="text-brandNavy-400 dark:text-gray-400 text-center">
+                <p className="text-gray-700 dark:text-gray-400 text-center text-base">
                   No results found.
                 </p>
               )
