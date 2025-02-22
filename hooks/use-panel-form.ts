@@ -17,6 +17,7 @@ interface PanelFormData {
   panel3: string;
   [key: `co_researcher${number}`]: string;
   [key: `panel${number}`]: string;
+  
 }
 
 const initialFormState: PanelFormData = {

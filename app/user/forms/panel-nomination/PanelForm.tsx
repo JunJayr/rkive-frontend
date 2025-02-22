@@ -25,42 +25,63 @@ export default function PanelForm() {
 
   return (
     <Layout>
-      <div className="flex flex-col min-h-screen bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-100">
+      <div className="flex flex-col min-h-screen bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 font-inter">
         <Sidebar />
-        <div className="flex-grow flex items-center justify-center py-20 px-4">
-          <div className="w-full max-w-2xl bg-white dark:bg-gray-800 p-16 rounded-lg shadow-lg">
-            {pdfUrl ? (
-              <div>
-                <div className="relative mb-6">
-                  <button
-                    type="button"
-                    onClick={handleClosePreview}
-                    className="absolute top-0 right-0 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
-                    aria-label="Close Preview"
-                  >
-                    X
-                  </button>
+        <div className="flex-grow flex items-center justify-center py-16 px-4">
+          <div className="w-full max-w-3xl bg-white dark:bg-gray-800 p-12 rounded-3xl shadow-2xl">
+          {
+              pdfUrl ? (
+                <div>
+                  <div className="relative mb-8">
+                    <button
+                      type="button"
+                      onClick={handleClosePreview}
+                      className="absolute top-2 right-2 bg-gray-800 bg-opacity-50 hover:bg-opacity-70 text-white rounded-full w-10 h-10 flex items-center justify-center transition-colors duration-200"
+                      aria-label="Close Preview"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    </button>
+                    <iframe
+                      src={pdfUrl}
+                      className="w-full h-[600px] border border-gray-300 dark:border-gray-600 rounded-2xl mb-6"
+                      title="Document Preview"
+                    />
+                  </div>
+                  <div className="flex justify-center">
+                    <button
+                      onClick={handleDownload}
+                      className="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 transition-colors duration-200"
+                    >
+                      Download
+                    </button>
+                  </div>
                 </div>
-                <iframe
-                  src={pdfUrl}
-                  className="w-full h-[500px] border border-gray-300 dark:border-gray-600 mb-4"
-                  title="Document Preview"
-                />
-                <div className="flex justify-center">
-                  <button
-                    onClick={handleDownload}
-                    className="px-5 py-2.5 bg-blue-700 text-white rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300"
+              ) : (
+              <form onSubmit={handleSubmit} className="space-y-8">
+                <h2 className="text-3xl font-extrabold text-gray-900 dark:text-gray-100 tracking-tight">
+                  Nomination of Members of Oral Examination Panel
+                </h2>
+
+                {/* Proposed Thesis Title */}
+                <div>
+                  <label
+                    htmlFor="research_title"
+                    className="block text-lg font-semibold text-gray-700 dark:text-gray-300 mb-3"
                   >
-                    Download
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Research Title */}
-                <div className="lg:col-span-2">
-                  <label htmlFor="research_title" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                    Research Title
+                    Proposed Thesis Title
                   </label>
                   <input
                     type="text"
@@ -68,14 +89,17 @@ export default function PanelForm() {
                     id="research_title"
                     value={formData.research_title}
                     onChange={handleChange}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    className="w-full p-4 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white rounded-2xl focus:ring-blue-500 focus:border-blue-500 text-base shadow-sm transition-shadow duration-200"
                     required
                   />
                 </div>
 
                 {/* Lead Researcher */}
-                <div className="lg:col-span-2">
-                  <label htmlFor="lead_researcher" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                <div>
+                  <label
+                    htmlFor="lead_researcher"
+                    className="block text-lg font-semibold text-gray-700 dark:text-gray-300 mb-3"
+                  >
                     Lead Researcher
                   </label>
                   <input
@@ -84,90 +108,160 @@ export default function PanelForm() {
                     id="lead_researcher"
                     value={formData.lead_researcher}
                     onChange={handleChange}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    className="w-full p-4 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white rounded-2xl focus:ring-blue-500 focus:border-blue-500 text-base shadow-sm transition-shadow duration-200"
                     required
                   />
                 </div>
 
-                {/* Research Proponents */}
-                <h2 className="block text-sm font-medium text-gray-900 dark:text-gray-100">
-                  Research Proponents
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
-                  {[1, 2, 3, 4, 5].map((index) => (
-                    <div key={index} className="flex items-center gap-x-3">
-                      <span className="text-gray-900 dark:text-gray-100">{index}.</span>
-                      <input
-                        type="text"
-                        name={`co_researcher${index}`}
-                        value={formData[`co_researcher${index}`] || ''}
-                        onChange={handleChange}
-                        className="w-full p-2 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white rounded-lg focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                      />
-                    </div>
-                  ))}
+                {/* Research Proponents Table */}
+                <div>
+                  <label
+                    className="block text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4"
+                  >
+                    Research Proponents
+                  </label>
+                  <div className="overflow-x-auto rounded-2xl shadow-md">
+                    <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                      <thead className="bg-gray-50 dark:bg-gray-700">
+                        <tr>
+                          <th
+                            scope="col"
+                            className="px-6 py-4 text-left text-base font-semibold text-gray-500 dark:text-gray-300"
+                          >
+                            #
+                          </th>
+                          <th
+                            scope="col"
+                            className="px-6 py-4 text-left text-base font-semibold text-gray-500 dark:text-gray-300"
+                          >
+                            Name
+                          </th>
+                          <th
+                            scope="col"
+                            className="px-6 py-4 text-left text-base font-semibold text-gray-500 dark:text-gray-300"
+                          >
+                            Role
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                        {[1, 2, 3, 4, 5].map((index) => (
+                          <tr key={index}>
+                            <td className="px-6 py-5 whitespace-nowrap text-base font-medium text-gray-900 dark:text-gray-100">
+                              {index}
+                            </td>
+                            <td className="px-6 py-5 whitespace-nowrap text-base text-gray-900 dark:text-gray-100">
+                              <input
+                                type="text"
+                                name={`co_researcher${index}`}
+                                value={formData[`co_researcher${index}`] || ''}
+                                onChange={handleChange}
+                                className="w-full p-3 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white rounded-xl focus:ring-blue-500 focus:border-blue-500 text-sm shadow-sm transition-shadow duration-200"
+                              />
+                            </td>
+                            <td className="px-6 py-5 whitespace-nowrap text-base text-gray-900 dark:text-gray-100">
+                              Proponent
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
 
-                {/* Adviser and Panel Chair (Left and Right) */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
-                  {/* Adviser (Left) */}
-                  <div>
-                    <label htmlFor="adviser" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                      Adviser
-                    </label>
-                    <input
-                      type="text"
-                      name="adviser"
-                      id="adviser"
-                      value={formData.adviser}
-                      onChange={handleChange}
-                      className="w-full p-2 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white rounded-lg focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                      required
-                    />
-                  </div>
+                {/* Nominated Faculty Members Table */}
+                <div>
+                  <h3
+                    className="block text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4"
+                  >
+                    Nominated Faculty Members
+                  </h3>
+                  <div className="overflow-x-auto rounded-2xl shadow-md">
+                    <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                      <thead className="bg-gray-50 dark:bg-gray-700">
+                        <tr>
+                          <th
+                            scope="col"
+                            className="px-6 py-4 text-left text-base font-semibold text-gray-500 dark:text-gray-300"
+                          >
+                            #
+                          </th>
+                          <th
+                            scope="col"
+                            className="px-6 py-4 text-left text-base font-semibold text-gray-500 dark:text-gray-300"
+                          >
+                            Name
+                          </th>
+                          <th
+                            scope="col"
+                            className="px-6 py-4 text-left text-base font-semibold text-gray-500 dark:text-gray-300"
+                          >
+                            Role
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                        {[1, 2, 3, 4, 5].map((index) => {
+                          type NameField =
+                            | 'adviser'
+                            | 'panel_chair'
+                            | 'panel1'
+                            | 'panel2'
+                            | 'panel3';
+                          let nameField: NameField;
+                          if (index === 1) {
+                            nameField = 'adviser';
+                          } else if (index === 2) {
+                            nameField = 'panel_chair';
+                          } else {
+                            nameField = `panel${index - 2}` as
+                              | 'panel1'
+                              | 'panel2'
+                              | 'panel3';
+                          }
 
-                  {/* Panel Chair (Right) */}
-                  <div>
-                    <label htmlFor="panel_chair" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                      Panel Chair
-                    </label>
-                    <input
-                      type="text"
-                      name="panel_chair"
-                      id="panel_chair"
-                      value={formData.panel_chair}
-                      onChange={handleChange}
-                      className="w-full p-2 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white rounded-lg focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                      required
-                    />
+                          return (
+                            <tr key={index}>
+                              <td className="px-6 py-5 whitespace-nowrap text-base font-medium text-gray-900 dark:text-gray-100">
+                                {index}
+                              </td>
+                              <td className="px-6 py-5 whitespace-nowrap text-base text-gray-900 dark:text-gray-100">
+                                <input
+                                  type="text"
+                                  name={nameField}
+                                  id={nameField}
+                                  value={formData[nameField] || ''}
+                                  onChange={handleChange}
+                                  className="w-full p-3 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white rounded-xl focus:ring-blue-500 focus:border-blue-500 text-sm shadow-sm transition-shadow duration-200"
+                                />
+                              </td>
+                              <td className="px-6 py-5 whitespace-nowrap text-base text-gray-900 dark:text-gray-100">
+                                {index === 1
+                                  ? 'Adviser'
+                                  : index === 2
+                                  ? 'Panel Chair'
+                                  : 'Member'}
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
                   </div>
-                </div>
-
-                {/* Panel Members */}
-                <h2 className="block text-sm font-medium text-gray-900 dark:text-gray-100">
-                  Panel Members
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
-                  {[1, 2, 3].map((index) => (
-                    <div key={index} className="flex items-center gap-x-3">
-                      <span className="text-gray-900 dark:text-gray-100">{index}.</span>
-                      <input
-                        type="text"
-                        name={`panel${index}`}
-                        value={formData[`panel${index}`] || ''}
-                        onChange={handleChange}
-                        className="w-full p-2 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white rounded-lg focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                      />
-                    </div>
-                  ))}
                 </div>
 
                 {/* Submit Button */}
                 <button
                   type="submit"
-                  className="w-full py-2 px-4 bg-indigo-600 text-white rounded-md hover:bg-indigo-500"
+                  className="w-full py-4 px-6 bg-indigo-600 text-white rounded-2xl hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-300 transition-colors duration-200 text-lg font-semibold shadow-md flex items-center justify-center"
                 >
-                  {isLoading ? <Spinner sm /> : 'Submit'}
+                  {isLoading ? (
+                    <div className="flex items-center justify-center">
+                      <Spinner sm />
+                    </div>
+                  ) : (
+                    'Generate Panel'
+                  )}
                 </button>
               </form>
             )}
