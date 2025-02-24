@@ -34,9 +34,9 @@ export default function useLogin() {
       const roleResponse = await getUserRole({}).unwrap();
 
       dispatch(setAuthLogin({
-        isSuperuser: roleResponse.is_superuser,
-        isStaff: roleResponse.is_staff,
         isActive: roleResponse.is_active,
+        isStaff: roleResponse.is_staff,
+        isSuperuser: roleResponse.is_superuser,
         isDean: roleResponse.is_dean,
         isHeadDept: roleResponse.is_headdept,
         isFaculty: roleResponse.is_faculty,
@@ -45,12 +45,14 @@ export default function useLogin() {
       
       toast.success('Logged in');
 
-      if (roleResponse.is_superuser && roleResponse.is_staff && roleResponse.is_active && roleResponse.is_dean
-        && roleResponse.is_headdept && roleResponse.is_faculty && roleResponse.is_student
-      ) {
+      if (roleResponse.is_superuser && roleResponse.is_staff && roleResponse.is_active) { 
         router.push('/admin');
-      } else if (roleResponse.is_staff && roleResponse.is_active) {
-        router.push('/staff');
+      } else if (roleResponse.is_dean && roleResponse.is_active) {
+        router.push('/dean');
+      } else if (roleResponse.is_headdept && roleResponse.is_active) {
+        router.push('/department');
+      } else if (roleResponse.is_faculty && roleResponse.is_active) {
+        router.push('/faculty');
       } else if (roleResponse.is_student && roleResponse.is_active) {
         router.push('/user');
       } else {
