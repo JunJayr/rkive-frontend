@@ -16,9 +16,9 @@ interface User {
   is_active: boolean;
   is_staff: boolean;
   is_superuser: boolean;
-  is_dean: boolean;  // Add this
-  is_headdept: boolean; // Add this
-  is_faculty: boolean; // Add this
+  is_dean: boolean; 
+  is_headdept: boolean;
+  is_faculty: boolean;
   is_student: boolean;
 }
 

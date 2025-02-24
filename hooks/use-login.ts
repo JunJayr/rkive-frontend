@@ -37,15 +37,21 @@ export default function useLogin() {
         isSuperuser: roleResponse.is_superuser,
         isStaff: roleResponse.is_staff,
         isActive: roleResponse.is_active,
+        isDean: roleResponse.is_dean,
+        isHeadDept: roleResponse.is_headdept,
+        isFaculty: roleResponse.is_faculty,
+        isStudent: roleResponse.is_student,
       }));
       
       toast.success('Logged in');
 
-      if (roleResponse.is_superuser && roleResponse.is_staff && roleResponse.is_active) {
+      if (roleResponse.is_superuser && roleResponse.is_staff && roleResponse.is_active && roleResponse.is_dean
+        && roleResponse.is_headdept && roleResponse.is_faculty && roleResponse.is_student
+      ) {
         router.push('/admin');
       } else if (roleResponse.is_staff && roleResponse.is_active) {
         router.push('/staff');
-      } else if (roleResponse.is_active) {
+      } else if (roleResponse.is_student && roleResponse.is_active) {
         router.push('/user');
       } else {
         toast.error('Your account is not active.');

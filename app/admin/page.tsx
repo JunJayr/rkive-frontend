@@ -98,6 +98,10 @@ export default function AdminDashboard() {
                   <th className="border-b-2 border-gray-300 dark:border-gray-700 py-2 px-4 text-gray-900 dark:text-gray-300">Is Active</th>
                   <th className="border-b-2 border-gray-300 dark:border-gray-700 py-2 px-4 text-gray-900 dark:text-gray-300">Is Staff</th>
                   <th className="border-b-2 border-gray-300 dark:border-gray-700 py-2 px-4 text-gray-900 dark:text-gray-300">Is Superuser</th>
+                  <th className="border-b-2 border-gray-300 dark:border-gray-700 py-2 px-4 text-gray-900 dark:text-gray-300">Is Dean</th>
+                  <th className="border-b-2 border-gray-300 dark:border-gray-700 py-2 px-4 text-gray-900 dark:text-gray-300">Is Head Dept</th>
+                  <th className="border-b-2 border-gray-300 dark:border-gray-700 py-2 px-4 text-gray-900 dark:text-gray-300">Is Faculty</th>
+                  <th className="border-b-2 border-gray-300 dark:border-gray-700 py-2 px-4 text-gray-900 dark:text-gray-300">Is Student</th>
                 </tr>
               </thead>
               <tbody>
@@ -214,42 +218,44 @@ export default function AdminDashboard() {
                     onChange={(e) => handleInputChange({ target: { name: 'is_superuser', value: e.target.checked } } as any)}
                   />
                 </div>
+
                 <div className="mb-4">
-                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Is superuser</label>
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Is Dean</label>
                   <input
                     type="checkbox"
                     name="is_dean"
-                    checked={!!selectedUser.is_superuser}
-                    onChange={(e) => handleInputChange({ target: { name: 'is_superuser', value: e.target.checked } } as any)}
+                    checked={!!selectedUser.is_dean}
+                    onChange={(e) => handleInputChange({ target: { name: 'is_dean', value: e.target.checked } } as any)}
                   />
                 </div>
                 <div className="mb-4">
-                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Is superuser</label>
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Is Head Dept</label>
                   <input
                     type="checkbox"
-                    name="is_superuser"
-                    checked={!!selectedUser.is_superuser}
-                    onChange={(e) => handleInputChange({ target: { name: 'is_superuser', value: e.target.checked } } as any)}
+                    name="is_headdept"
+                    checked={!!selectedUser.is_headdept}
+                    onChange={(e) => handleInputChange({ target: { name: 'is_headdept', value: e.target.checked } } as any)}
                   />
                 </div>
                 <div className="mb-4">
-                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Is superuser</label>
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Is Faculty</label>
                   <input
                     type="checkbox"
-                    name="is_superuser"
-                    checked={!!selectedUser.is_superuser}
-                    onChange={(e) => handleInputChange({ target: { name: 'is_superuser', value: e.target.checked } } as any)}
+                    name="is_faculty"
+                    checked={!!selectedUser.is_faculty}
+                    onChange={(e) => handleInputChange({ target: { name: 'is_faculty', value: e.target.checked } } as any)}
                   />
                 </div>
                 <div className="mb-4">
-                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Is superuser</label>
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Is Student</label>
                   <input
                     type="checkbox"
-                    name="is_superuser"
-                    checked={!!selectedUser.is_superuser}
-                    onChange={(e) => handleInputChange({ target: { name: 'is_superuser', value: e.target.checked } } as any)}
+                    name="is_student"
+                    checked={!!selectedUser.is_student}
+                    onChange={(e) => handleInputChange({ target: { name: 'is_student', value: e.target.checked } } as any)}
                   />
                 </div>
+
                 <div className="flex justify-between mt-6">
                   <button onClick={handleSave} className="bg-blue-500 text-white px-4 py-2 rounded-2xl hover:bg-blue-600 transition-colors duration-200">Save</button>
                   <button onClick={handleDelete} className="bg-red-500 text-white px-4 py-2 rounded-2xl hover:bg-red-600 transition-colors duration-200">Delete</button>

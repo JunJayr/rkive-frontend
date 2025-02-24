@@ -60,7 +60,9 @@ const authApiSlice = apiSlice.injectEndpoints({
 				body: { email, password },
 			}),
 		}),
-		getUserRole: builder.mutation<{ is_superuser: boolean; is_staff: boolean; is_active: boolean }, {}>({
+		getUserRole: builder.mutation<{ is_superuser: boolean; is_staff: boolean; is_active: boolean;
+			is_dean: boolean; is_headdept: boolean; is_faculty: boolean; is_student: boolean;
+		 }, {}>({
 			query: () => ({
 				url: '/user-role/',
 				method: 'GET',
