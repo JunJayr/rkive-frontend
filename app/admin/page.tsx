@@ -111,6 +111,10 @@ export default function AdminDashboard() {
                     <td className="py-3 px-4">{user.is_active ? <CheckCircleIcon className="text-green-500" /> : <XCircleIcon className="text-red-500" />}</td>
                     <td className="py-3 px-4">{user.is_staff ? <CheckCircleIcon className="text-green-500" /> : <XCircleIcon className="text-red-500" />}</td>
                     <td className="py-3 px-4">{user.is_superuser ? <CheckCircleIcon className="text-green-500" /> : <XCircleIcon className="text-red-500" />}</td>
+                    <td className="py-3 px-4">{user.is_dean ? <CheckCircleIcon className="text-green-500" /> : <XCircleIcon className="text-red-500" />}</td>
+                    <td className="py-3 px-4">{user.is_headdept ? <CheckCircleIcon className="text-green-500" /> : <XCircleIcon className="text-red-500" />}</td>
+                    <td className="py-3 px-4">{user.is_faculty ? <CheckCircleIcon className="text-green-500" /> : <XCircleIcon className="text-red-500" />}</td>
+                    <td className="py-3 px-4">{user.is_student ? <CheckCircleIcon className="text-green-500" /> : <XCircleIcon className="text-red-500" />}</td>
                   </tr>
                 ))}
               </tbody>
@@ -199,6 +203,42 @@ export default function AdminDashboard() {
                     name="is_staff"
                     checked={!!selectedUser.is_staff}
                     onChange={(e) => handleInputChange({ target: { name: 'is_staff', value: e.target.checked } } as any)}
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Is superuser</label>
+                  <input
+                    type="checkbox"
+                    name="is_superuser"
+                    checked={!!selectedUser.is_superuser}
+                    onChange={(e) => handleInputChange({ target: { name: 'is_superuser', value: e.target.checked } } as any)}
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Is superuser</label>
+                  <input
+                    type="checkbox"
+                    name="is_dean"
+                    checked={!!selectedUser.is_superuser}
+                    onChange={(e) => handleInputChange({ target: { name: 'is_superuser', value: e.target.checked } } as any)}
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Is superuser</label>
+                  <input
+                    type="checkbox"
+                    name="is_superuser"
+                    checked={!!selectedUser.is_superuser}
+                    onChange={(e) => handleInputChange({ target: { name: 'is_superuser', value: e.target.checked } } as any)}
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Is superuser</label>
+                  <input
+                    type="checkbox"
+                    name="is_superuser"
+                    checked={!!selectedUser.is_superuser}
+                    onChange={(e) => handleInputChange({ target: { name: 'is_superuser', value: e.target.checked } } as any)}
                   />
                 </div>
                 <div className="mb-4">

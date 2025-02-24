@@ -16,6 +16,10 @@ interface User {
   is_active: boolean;
   is_staff: boolean;
   is_superuser: boolean;
+  is_dean: boolean;  // Add this
+  is_headdept: boolean; // Add this
+  is_faculty: boolean; // Add this
+  is_student: boolean;
 }
 
 export default function useAdminDashboard() {
