@@ -12,8 +12,6 @@ export default function SubmitForm() {
     description,
     file,
     isLoading,
-    isError,
-    isSuccess,
     onChangeTitle,
     onChangeDescription,
     onChangeFile,
@@ -22,11 +20,6 @@ export default function SubmitForm() {
 
   return (
     <Layout>
-      {isLoading && (
-        <div className="fixed top-0 left-0 w-full h-full bg-gray-500 bg-opacity-50 flex items-center justify-center z-50">
-          <Spinner sm />
-        </div>
-      )}
       <div className="flex flex-col min-h-screen bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 font-inter">
         <Sidebar />
         <div className="flex-grow flex items-center justify-center py-12 px-4">
@@ -93,20 +86,10 @@ export default function SubmitForm() {
               <button
                 type="submit"
                 className="w-full py-3 px-4 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-300 transition-colors duration-200 text-base font-semibold shadow-md flex items-center justify-center"
+                disabled={isLoading}
               >
                 {isLoading ? <Spinner sm /> : 'Submit'}
               </button>
-
-              {isSuccess && (
-                <p className="text-green-500 text-sm">
-                  Manuscript submitted successfully!
-                </p>
-              )}
-              {isError && (
-                <p className="text-red-500 text-sm">
-                  Failed to submit manuscript. Please try again.
-                </p>
-              )}
             </form>
           </div>
         </div>

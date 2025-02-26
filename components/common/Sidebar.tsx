@@ -37,9 +37,9 @@ export default function Sidebar() {
   const menuItems = [
     { name: 'Dashboard', href: '/user', icon: <FaHome className="w-4 mr-3" /> },
     { name: 'Profile', href: '/user/profile', icon: <FaUser className="w-4 mr-3" /> },
-    { name: 'Panel Nomination', href: '/user/forms/panel-nomination', icon: <FaUsers className="w-4 mr-3" /> },
-    { name: 'Defense Application', href: '/user/forms/defense-application', icon: <FaClipboard className="w-4 mr-3" /> },
-    { name: 'Submit Thesis', href: '/user/forms/submit-study', icon: <FaPaperclip className="w-4 mr-3" /> },
+    { name: 'Panel Nomination', href: '/user/panel-nomination', icon: <FaUsers className="w-4 mr-3" /> },
+    { name: 'Defense Application', href: '/user/defense-application', icon: <FaClipboard className="w-4 mr-3" /> },
+    { name: 'Submit Thesis', href: '/user/submit-study', icon: <FaPaperclip className="w-4 mr-3" /> },
   ];
 
   return (
