@@ -17,7 +17,6 @@ interface PanelFormData {
   panel3: string;
   [key: `co_researcher${number}`]: string;
   [key: `panel${number}`]: string;
-  
 }
 
 const initialFormState: PanelFormData = {
@@ -36,13 +35,11 @@ const initialFormState: PanelFormData = {
 };
 
 export default function usePanelGeneration() {
-  // This mutation now returns a string (object URL), not a Blob
   const [panelGenerate, { isLoading }] = usePanelGenerateMutation();
 
   const [formData, setFormData] = useState<PanelFormData>(initialFormState);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
-  // Revoke any existing object URL when unmounting or changing preview URL
   useEffect(() => {
     return () => {
       if (previewUrl) {
@@ -51,16 +48,14 @@ export default function usePanelGeneration() {
     };
   }, [previewUrl]);
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = event.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Submit form and store the object URL in state
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      // The updated endpoint returns an object URL string
       const docUrl = await panelGenerate(formData).unwrap();
       setPreviewUrl(docUrl);
       toast.success('Document is ready for download.');
@@ -70,12 +65,11 @@ export default function usePanelGeneration() {
     }
   };
 
-  // Trigger file download using the object URL
   const handleDownload = () => {
     if (!previewUrl) return;
     const link = document.createElement('a');
     link.href = previewUrl;
-    link.download = 'panel_document.pdf'; // or .pdf, depending on the file type
+    link.download = 'panel_document.pdf';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

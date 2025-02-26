@@ -220,20 +220,33 @@ export default function PanelForm() {
                               | 'panel3';
                           }
 
+                          const facultyOptions = [
+                            'Quinto A. Tan Jr., MIT',
+                            'Jay Noel Rojo',
+                            'Jerwin S. Borres',
+                            'Christopher Daniot II, MDS',
+                          ];
+
                           return (
                             <tr key={index}>
                               <td className="px-6 py-5 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
                                 {index}
                               </td>
                               <td className="px-6 py-5 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
-                                <input
-                                  type="text"
+                                <select
                                   name={nameField}
                                   id={nameField}
                                   value={formData[nameField] || ''}
                                   onChange={handleChange}
                                   className="w-full p-3 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white rounded-xl focus:ring-blue-500 focus:border-blue-500 text-sm shadow-sm transition-shadow duration-200"
-                                />
+                                >
+                                  <option value="">Select Faculty Member</option>
+                                  {facultyOptions.map((faculty) => (
+                                    <option key={faculty} value={faculty}>
+                                      {faculty}
+                                    </option>
+                                  ))}
+                                </select>
                               </td>
                               <td className="px-6 py-5 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
                                 {index === 1
