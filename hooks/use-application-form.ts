@@ -45,13 +45,11 @@ const initialFormState: ApplicationFormData = {
 };
 
 export default function useApplicationGeneration() {
-  // The mutation now returns an object URL string, not a Blob
   const [applicationGenerate, { isLoading }] = useApplicationGenerateMutation();
 
   const [formData, setFormData] = useState<ApplicationFormData>(initialFormState);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
-  // Revoke the old object URL on unmount or when previewUrl changes
   useEffect(() => {
     return () => {
       if (previewUrl) {
@@ -60,18 +58,16 @@ export default function useApplicationGeneration() {
     };
   }, [previewUrl]);
 
-  // Update form data on input changes
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+  // Updated handleChange to support both input and select elements
+  const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = event.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Submit form -> generate doc -> store returned object URL in state
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
   
     try {
-      // Format the datetime_defense before sending
       const formattedData = {
         ...formData,
         datetime_defense: new Date(formData.datetime_defense).toLocaleString('en-US', {
@@ -81,10 +77,9 @@ export default function useApplicationGeneration() {
           hour: 'numeric',
           minute: 'numeric',
           hour12: true,
-        }), // Converts to "May 31, 2024 @ 12:00 pm"
+        }),
       };
   
-      // Send the formatted data
       const docUrl = await applicationGenerate(formattedData).unwrap();
       setPreviewUrl(docUrl);
       toast.success('Document is ready to view or download!');
@@ -94,12 +89,11 @@ export default function useApplicationGeneration() {
     }
   };
 
-  // Download the file by programmatically clicking an <a> link
   const handleDownload = () => {
     if (!previewUrl) return;
     const link = document.createElement('a');
     link.href = previewUrl;
-    link.download = 'application_document.pdf'; // Adjust the file name/extension as needed
+    link.download = 'application_document.pdf';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

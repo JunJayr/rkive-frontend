@@ -1,7 +1,6 @@
 'use client';
 
 import { useApplicationGeneration } from '@/hooks';
-import DateFormatter from '@/components/utils/DateFormatter';
 import Spinner from '@/components/common/Spinner';
 import Footer from '@/components/common/Footer';
 import Sidebar from '@/components/common/Sidebar';
@@ -82,15 +81,21 @@ export default function ApplicationForm() {
                   >
                     Department
                   </label>
-                  <input
-                    type="text"
+                  <select
                     name="department"
                     id="department"
                     value={formData.department}
                     onChange={handleChange}
                     className="w-full p-3 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white rounded-2xl focus:ring-blue-500 focus:border-blue-500 text-sm shadow-sm transition-shadow duration-200"
                     required
-                  />
+                  >
+                    <option value="">Select Department</option>
+                    <option value="Information Technology">Information Technology</option>
+                    <option value="Technology Communication Management">Technology Communication Management</option>
+                    <option value="Data Science">Data Science</option>
+                    <option value="Computer Science">Computer Science</option>
+                    {/*<option value="Entrepreneurial Service Unit">Entrepreneurial Service Unit</option>*/}
+                  </select>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
@@ -243,8 +248,8 @@ export default function ApplicationForm() {
                   </div>
                 </div>
 
-                 {/* Nominated Faculty Members Table */}
-                 <div>
+                {/* Nominated Faculty Members Table */}
+                <div>
                   <h3
                     className="block text-base font-semibold text-gray-700 dark:text-gray-300 mb-4"
                   >
@@ -294,20 +299,33 @@ export default function ApplicationForm() {
                               | 'panel3';
                           }
 
+                          const facultyOptions = [
+                            'Quinto A. Tan Jr., MIT',
+                            'Jay Noel Rojo',
+                            'Jerwin S. Borres',
+                            'Christopher Daniot II, MDS',
+                          ];
+
                           return (
                             <tr key={index}>
                               <td className="px-6 py-5 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
                                 {index}
                               </td>
                               <td className="px-6 py-5 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
-                                <input
-                                  type="text"
+                                <select
                                   name={nameField}
                                   id={nameField}
                                   value={formData[nameField] || ''}
                                   onChange={handleChange}
                                   className="w-full p-3 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white rounded-xl focus:ring-blue-500 focus:border-blue-500 text-sm shadow-sm transition-shadow duration-200"
-                                />
+                                >
+                                  <option value="">Select Faculty Member</option>
+                                  {facultyOptions.map((faculty) => (
+                                    <option key={faculty} value={faculty}>
+                                      {faculty}
+                                    </option>
+                                  ))}
+                                </select>
                               </td>
                               <td className="px-6 py-5 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
                                 {index === 1
