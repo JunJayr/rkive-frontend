@@ -94,7 +94,6 @@ export default function ApplicationForm() {
                     <option value="Technology Communication Management">Technology Communication Management</option>
                     <option value="Data Science">Data Science</option>
                     <option value="Computer Science">Computer Science</option>
-                    {/*<option value="Entrepreneurial Service Unit">Entrepreneurial Service Unit</option>*/}
                   </select>
                 </div>
 
@@ -304,7 +303,7 @@ export default function ApplicationForm() {
                             'Jay Noel Rojo',
                             'Jerwin S. Borres',
                             'Christopher Daniot II, MDS',
-                          ];
+                          ].sort(); // Sort alphabetically
 
                           return (
                             <tr key={index}>
