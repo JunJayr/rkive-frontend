@@ -5,6 +5,8 @@ import Spinner from '@/components/common/Spinner';
 import Footer from '@/components/common/Footer';
 import Sidebar from '@/components/common/Sidebar';
 import Layout from '@/components/utils/Layout';
+import { AiOutlineMenu } from 'react-icons/ai';
+import Link from 'next/link';
 
 export default function PanelForm() {
   const {
@@ -25,51 +27,62 @@ export default function PanelForm() {
 
   return (
     <Layout>
-      <div className="flex flex-col min-h-screen bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 font-inter">
-        <Sidebar />
+      <div className="flex flex-col min-h-screen bg-gray-900 text-gray-100 font-inter">
+        {/* Sidebar and Header */}
+        <div className="relative">
+         
+          {/* Menu Icon and Rkive Header (outside the form, at the top-left) */}
+          <div className="fixed top-3 left-20 z-50 flex items-center space-x-4">
+              <Sidebar />
+            <div className="text-2xl font-bold tracking-widest">
+              <Link href="/user">Rkive</Link>
+            </div>
+          </div>
+        </div>
+
+        {/* Main Content (Form) */}
         <div className="flex-grow flex items-center justify-center py-16 px-4">
           <div className="w-full max-w-2xl bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-2xl">
-          {
-              pdfUrl ? (
-                <div>
-                  <div className="relative mb-8">
-                    <button
-                      type="button"
-                      onClick={handleClosePreview}
-                      className="absolute top-2 right-2 bg-gray-800 bg-opacity-50 hover:bg-opacity-70 text-white rounded-full w-10 h-10 flex items-center justify-center transition-colors duration-200"
-                      aria-label="Close Preview"
+            {pdfUrl ? (
+              <div>
+                <div className="relative mb-8">
+                  <button
+                    type="button"
+                    onClick={handleClosePreview}
+                    className="absolute top-2 right-2 bg-gray-800 bg-opacity-50 hover:bg-opacity-70 text-white rounded-full w-10 h-10 flex items-center justify-center transition-colors duration-200"
+                    aria-label="Close Preview"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
                     >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-6 w-6"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M6 18L18 6M6 6l12 12"
-                        />
-                      </svg>
-                    </button>
-                    <iframe
-                      src={pdfUrl}
-                      className="w-full h-[600px] border border-gray-300 dark:border-gray-600 rounded-2xl mb-6"
-                      title="Document Preview"
-                    />
-                  </div>
-                  <div className="flex justify-center">
-                    <button
-                      onClick={handleDownload}
-                      className="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 transition-colors duration-200"
-                    >
-                      Download
-                    </button>
-                  </div>
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
+                  <iframe
+                    src={pdfUrl}
+                    className="w-full h-[600px] border border-gray-300 dark:border-gray-600 rounded-2xl mb-6"
+                    title="Document Preview"
+                  />
                 </div>
-              ) : (
+                <div className="flex justify-center">
+                  <button
+                    onClick={handleDownload}
+                    className="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 transition-colors duration-200"
+                  >
+                    Download
+                  </button>
+                </div>
+              </div>
+            ) : (
               <form onSubmit={handleSubmit} className="space-y-8">
                 <h2 className="text-2xl font-extrabold text-gray-900 dark:text-gray-100 tracking-tight">
                   Nomination of Members of Oral Examination Panel
@@ -273,7 +286,7 @@ export default function PanelForm() {
                       <Spinner sm />
                     </div>
                   ) : (
-                    'Generate Panel'
+                    'Submit'
                   )}
                 </button>
               </form>
