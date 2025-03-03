@@ -41,7 +41,9 @@ export default function useAdminDashboard() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (selectedUser) {
-      setSelectedUser({ ...selectedUser, [e.target.name]: e.target.value });
+      const { name, value, type, checked } = e.target;
+      const newValue = type === 'checkbox' ? checked : value;
+      setSelectedUser({ ...selectedUser, [name]: newValue });
     }
   };
 
