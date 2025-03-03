@@ -1,0 +1,1 @@
+export { default as useAdminDashboard} from './use-admin-dashboard'
