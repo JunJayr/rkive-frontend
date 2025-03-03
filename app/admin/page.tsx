@@ -260,7 +260,7 @@ export default function AdminDashboard() {
 
                 {isLoading && (
                   <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                    <Spinner className="text-white" />
+                    <Spinner/>
                   </div>
                 )}
               </div>
@@ -412,7 +412,7 @@ export default function AdminDashboard() {
 
                 {isLoading && (
                   <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                    <Spinner className="text-white" />
+                    <Spinner/>
                   </div>
                 )}
               </div>
