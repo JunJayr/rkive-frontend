@@ -9,12 +9,15 @@ import { toast } from 'react-toastify';
 import { useAppDispatch } from '@/redux/hooks';
 import { useLogoutMutation } from '@/redux/features/authApiSlice';
 import { logout as setLogout } from '@/redux/features/authSlice';
+import Spinner from '@/components/common/Spinner'; // Import the Spinner component
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname(); // Get the current pathname
   const dispatch = useAppDispatch();
   const [logoutMutation] = useLogoutMutation();
+
+  const [showFullScreenSpinner, setShowFullScreenSpinner] = useState(false); // Add state for full-screen spinner
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -25,12 +28,16 @@ export default function Sidebar() {
   };
 
   const handleLogout = async () => {
+    setShowFullScreenSpinner(true); // Show full-screen spinner
     try {
       await logoutMutation(undefined).unwrap();
       dispatch(setLogout());
       toast.success('Logged out');
     } catch (error) {
       toast.error('Failed to logout');
+    } finally {
+      setShowFullScreenSpinner(false); // Hide full-screen spinner
+      closeSidebar(); // Close sidebar after logout (optional, for UX)
     }
   };
 
@@ -61,6 +68,13 @@ export default function Sidebar() {
         />
       )}
 
+      {/* Full-screen spinner for loading */}
+      {showFullScreenSpinner && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <Spinner className="text-white" />
+        </div>
+      )}
+
       {/* Sidebar */}
       <aside
         className={`fixed top-0 left-0 h-screen bg-gray-800 transform transition-transform duration-300 z-50 w-64 ${
@@ -68,11 +82,11 @@ export default function Sidebar() {
         }`}
       >
         <button
-            className="p-2 text-yellow rounded-md hover:bg-gray-200 fixed top-4 left-4 z-50"
-            onClick={toggleSidebar}
-            style={{ backgroundColor: 'transparent' }}
-          >
-            <AiOutlineMenu size={24} />
+          className="p-2 text-yellow rounded-md hover:bg-gray-200 fixed top-4 left-4 z-50"
+          onClick={toggleSidebar}
+          style={{ backgroundColor: 'transparent' }}
+        >
+          <AiOutlineMenu size={24} />
         </button>
         <div className="py-3 text-2xl text-center tracking-widest bg-gray-800 border-b-2 border-gray-800 mb-8">
           <Link href="/user" className="text-white" onClick={closeSidebar}>
@@ -100,11 +114,8 @@ export default function Sidebar() {
             {/* Logout */}
             <li className="px-4 cursor-pointer hover:bg-gray-700">
               <button
-                onClick={() => {
-                  handleLogout();
-                  closeSidebar();
-                }}
-                className="py-3 flex items-center w-full text-left"
+                onClick={handleLogout}
+                className="py-3 flex items-center w-full text-left text-gray-300 hover:text-white"
               >
                 <FaSignOutAlt className="w-4 mr-3" />
                 Logout
