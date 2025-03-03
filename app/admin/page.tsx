@@ -31,6 +31,8 @@ export default function AdminDashboard() {
     repassword: '',
   });
 
+  const [isLoading, setIsLoading] = useState(false); // Single loading state for all actions
+
   const handleAddInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setNewUser((prev) => ({
@@ -44,9 +46,44 @@ export default function AdminDashboard() {
       alert('Passwords do not match!');
       return;
     }
-    await handleAddUser(newUser);
-    setShowAddModal(false);
-    setNewUser({ first_name: '', last_name: '', email: '', password: '', repassword: '' }); // Reset form
+    setIsLoading(true); // Start loading
+    try {
+      await handleAddUser(newUser);
+      setShowAddModal(false);
+      setNewUser({ first_name: '', last_name: '', email: '', password: '', repassword: '' }); // Reset form
+    } catch (error) {
+      console.error('Error adding user:', error);
+    } finally {
+      setIsLoading(false); // Stop loading
+    }
+  };
+
+  const handleSaveClick = async () => {
+    if (selectedUser) {
+      setIsLoading(true); // Start loading
+      try {
+        await handleSave();
+        setShowModal(false);
+      } catch (error) {
+        console.error('Error saving user:', error);
+      } finally {
+        setIsLoading(false); // Stop loading
+      }
+    }
+  };
+
+  const handleDeleteClick = async () => {
+    if (selectedUser) {
+      setIsLoading(true); // Start loading
+      try {
+        await handleDelete();
+        setShowModal(false);
+      } catch (error) {
+        console.error('Error deleting user:', error);
+      } finally {
+        setIsLoading(false); // Stop loading
+      }
+    }
   };
 
   const overviewConfig = [
@@ -132,6 +169,7 @@ export default function AdminDashboard() {
             )}
           </div>
 
+          {/* Add Account Modal - Landscape Design */}
           {showAddModal && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
               <div className="bg-[#1A202C] p-6 rounded-3xl shadow-2xl w-full max-w-4xl transform transition-all duration-300 ease-in-out hover:shadow-3xl">
@@ -214,10 +252,17 @@ export default function AdminDashboard() {
                   <button
                     onClick={handleAddUserClick}
                     className="w-full bg-blue-500 text-white px-5 py-3 rounded-2xl hover:bg-blue-600 transition-colors duration-200 shadow-md hover:shadow-lg"
+                    disabled={isLoading}
                   >
                     Add
                   </button>
                 </div>
+
+                {isLoading && (
+                  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                    <Spinner className="text-white" />
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -350,18 +395,26 @@ export default function AdminDashboard() {
                 {/* Buttons */}
                 <div className="flex justify-end space-x-4 mt-6">
                   <button
-                    onClick={handleSave}
+                    onClick={handleSaveClick}
                     className="bg-blue-500 text-white px-4 py-2 rounded-2xl hover:bg-blue-600 transition-colors duration-200"
+                    disabled={isLoading}
                   >
                     Save
                   </button>
                   <button
-                    onClick={handleDelete}
+                    onClick={handleDeleteClick}
                     className="bg-red-500 text-white px-4 py-2 rounded-2xl hover:bg-red-600 transition-colors duration-200"
+                    disabled={isLoading}
                   >
                     Delete
                   </button>
                 </div>
+
+                {isLoading && (
+                  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                    <Spinner className="text-white" />
+                  </div>
+                )}
               </div>
             </div>
           )}
