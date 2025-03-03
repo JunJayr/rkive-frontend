@@ -95,40 +95,40 @@ export default function AdminDashboard() {
                 <Spinner />
               </div>
             ) : (
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr>
-                  <th className="border-b-2 border-gray-300 dark:border-gray-700 py-2 px-4 text-gray-900 dark:text-gray-300">First Name</th>
-                  <th className="border-b-2 border-gray-300 dark:border-gray-700 py-2 px-4 text-gray-900 dark:text-gray-300">Last Name</th>
-                  <th className="border-b-2 border-gray-300 dark:border-gray-700 py-2 px-4 text-gray-900 dark:text-gray-300">Email</th>
-                  <th className="border-b-2 border-gray-300 dark:border-gray-700 py-2 px-4 text-gray-900 dark:text-gray-300">Is Active</th>
-                  <th className="border-b-2 border-gray-300 dark:border-gray-700 py-2 px-4 text-gray-900 dark:text-gray-300">Is Staff</th>
-                  <th className="border-b-2 border-gray-300 dark:border-gray-700 py-2 px-4 text-gray-900 dark:text-gray-300">Is Superuser</th>
-                  <th className="border-b-2 border-gray-300 dark:border-gray-700 py-2 px-4 text-gray-900 dark:text-gray-300">Is Dean</th>
-                  <th className="border-b-2 border-gray-300 dark:border-gray-700 py-2 px-4 text-gray-900 dark:text-gray-300">Is Head Dept</th>
-                  <th className="border-b-2 border-gray-300 dark:border-gray-700 py-2 px-4 text-gray-900 dark:text-gray-300">Is Faculty</th>
-                  <th className="border-b-2 border-gray-300 dark:border-gray-700 py-2 px-4 text-gray-900 dark:text-gray-300">Is Student</th>
-                </tr>
-              </thead>
-              <tbody>
-                {users?.map((user) => (
-                  <tr key={user.id} className="border-b border-gray-200 dark:border-gray-700">
-                    <td className="py-3 px-4 text-blue-500 cursor-pointer hover:underline" onClick={() => handleUserClick(user)}>
-                      {user.first_name}
-                    </td>
-                    <td className="py-3 px-4 text-gray-900 dark:text-gray-100">{user.last_name}</td>
-                    <td className="py-3 px-4 text-gray-900 dark:text-gray-100">{user.email}</td>
-                    <td className="py-3 px-4">{user.is_active ? <CheckCircleIcon className="text-green-500" /> : <XCircleIcon className="text-red-500" />}</td>
-                    <td className="py-3 px-4">{user.is_staff ? <CheckCircleIcon className="text-green-500" /> : <XCircleIcon className="text-red-500" />}</td>
-                    <td className="py-3 px-4">{user.is_superuser ? <CheckCircleIcon className="text-green-500" /> : <XCircleIcon className="text-red-500" />}</td>
-                    <td className="py-3 px-4">{user.is_dean ? <CheckCircleIcon className="text-green-500" /> : <XCircleIcon className="text-red-500" />}</td>
-                    <td className="py-3 px-4">{user.is_headdept ? <CheckCircleIcon className="text-green-500" /> : <XCircleIcon className="text-red-500" />}</td>
-                    <td className="py-3 px-4">{user.is_faculty ? <CheckCircleIcon className="text-green-500" /> : <XCircleIcon className="text-red-500" />}</td>
-                    <td className="py-3 px-4">{user.is_student ? <CheckCircleIcon className="text-green-500" /> : <XCircleIcon className="text-red-500" />}</td>
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr>
+                    <th className="border-b-2 border-gray-300 dark:border-gray-700 py-2 px-4 text-gray-900 dark:text-gray-300">First Name</th>
+                    <th className="border-b-2 border-gray-300 dark:border-gray-700 py-2 px-4 text-gray-900 dark:text-gray-300">Last Name</th>
+                    <th className="border-b-2 border-gray-300 dark:border-gray-700 py-2 px-4 text-gray-900 dark:text-gray-300">Email</th>
+                    <th className="border-b-2 border-gray-300 dark:border-gray-700 py-2 px-4 text-gray-900 dark:text-gray-300">Is Active</th>
+                    <th className="border-b-2 border-gray-300 dark:border-gray-700 py-2 px-4 text-gray-900 dark:text-gray-300">Is Staff</th>
+                    <th className="border-b-2 border-gray-300 dark:border-gray-700 py-2 px-4 text-gray-900 dark:text-gray-300">Is Superuser</th>
+                    <th className="border-b-2 border-gray-300 dark:border-gray-700 py-2 px-4 text-gray-900 dark:text-gray-300">Is Dean</th>
+                    <th className="border-b-2 border-gray-300 dark:border-gray-700 py-2 px-4 text-gray-900 dark:text-gray-300">Is Head Dept</th>
+                    <th className="border-b-2 border-gray-300 dark:border-gray-700 py-2 px-4 text-gray-900 dark:text-gray-300">Is Faculty</th>
+                    <th className="border-b-2 border-gray-300 dark:border-gray-700 py-2 px-4 text-gray-900 dark:text-gray-300">Is Student</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {users?.map((user) => (
+                    <tr key={user.id} className="border-b border-gray-200 dark:border-gray-700">
+                      <td className="py-3 px-4 text-blue-500 cursor-pointer hover:underline" onClick={() => handleUserClick(user)}>
+                        {user.first_name}
+                      </td>
+                      <td className="py-3 px-4 text-gray-900 dark:text-gray-100">{user.last_name}</td>
+                      <td className="py-3 px-4 text-gray-900 dark:text-gray-100">{user.email}</td>
+                      <td className="py-3 px-4">{user.is_active ? <CheckCircleIcon className="text-green-500" /> : <XCircleIcon className="text-red-500" />}</td>
+                      <td className="py-3 px-4">{user.is_staff ? <CheckCircleIcon className="text-green-500" /> : <XCircleIcon className="text-red-500" />}</td>
+                      <td className="py-3 px-4">{user.is_superuser ? <CheckCircleIcon className="text-green-500" /> : <XCircleIcon className="text-red-500" />}</td>
+                      <td className="py-3 px-4">{user.is_dean ? <CheckCircleIcon className="text-green-500" /> : <XCircleIcon className="text-red-500" />}</td>
+                      <td className="py-3 px-4">{user.is_headdept ? <CheckCircleIcon className="text-green-500" /> : <XCircleIcon className="text-red-500" />}</td>
+                      <td className="py-3 px-4">{user.is_faculty ? <CheckCircleIcon className="text-green-500" /> : <XCircleIcon className="text-red-500" />}</td>
+                      <td className="py-3 px-4">{user.is_student ? <CheckCircleIcon className="text-green-500" /> : <XCircleIcon className="text-red-500" />}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             )}
           </div>
 
@@ -204,13 +204,21 @@ export default function AdminDashboard() {
             </div>
           )}
 
-          {/* User Edit Modal - Landscape Design */}
+          {/* User Edit Modal - Landscape Design with X Button */}
           {showModal && selectedUser && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
               <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-2xl w-full max-w-4xl">
-                <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-6">
-                  {selectedUser.first_name} {selectedUser.last_name} ({selectedUser.email})
-                </h2>
+                <div className="flex justify-between items-center mb-6">
+                  <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">
+                    {selectedUser.first_name} {selectedUser.last_name} ({selectedUser.email})
+                  </h2>
+                  <button
+                    onClick={() => setShowModal(false)}
+                    className="text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-100"
+                  >
+                    <XCircleIcon className="h-6 w-6" />
+                  </button>
+                </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Left Column */}
                   <div className="space-y-4">
@@ -334,12 +342,6 @@ export default function AdminDashboard() {
                     className="bg-red-500 text-white px-4 py-2 rounded-2xl hover:bg-red-600 transition-colors duration-200"
                   >
                     Delete
-                  </button>
-                  <button
-                    onClick={() => setShowModal(false)}
-                    className="bg-gray-500 text-white px-4 py-2 rounded-2xl hover:bg-gray-600 transition-colors duration-200"
-                  >
-                    Cancel
                   </button>
                 </div>
               </div>
