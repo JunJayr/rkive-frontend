@@ -46,6 +46,22 @@ interface DocumentCount {
 	manuscripts_count: number;
   }
 
+  interface AddUserResponse {
+	message: string;
+	userID: string;
+	first_name: string;
+	last_name: string;
+	email: string;
+  }
+  
+  interface AddUserInput {
+	first_name: string;
+	last_name: string;
+	email: string;
+	password: string;
+	repassword: string;
+  }
+
 const authApiSlice = apiSlice.injectEndpoints({
 	
 	overrideExisting: true,
@@ -156,32 +172,34 @@ const authApiSlice = apiSlice.injectEndpoints({
 			query: () => '/list-files/',
 		}),
 
-		listUsers: builder.query<any[], void>({
-			query: () => '/list-users/',
+		listUsers: builder.query<User[], void>({
+			query: () => '/list-users/', // Updated to match urls.py
 		}),
-
-		addUser: builder.mutation({
+	  
+		addUser: builder.mutation<AddUserResponse, AddUserInput>({
 			query: ({ first_name, last_name, email, password, repassword }) => ({
-				url: '/list-users/',
-				method: 'POST',
-				body: { first_name, last_name, email, password, repassword },
+			  url: '/list-users/', // Updated to match urls.py
+			  method: 'POST',
+			  body: { first_name, last_name, email, password, repassword },
 			}),
 		}),
-		updateUser: builder.mutation({
-			query: ({ userId, userData }) => ({
-			  url: `/list-users/${userId}/`,
+	  
+		updateUser: builder.mutation<User, { userID: string; userData: Partial<User> }>({
+			query: ({ userID, userData }) => ({
+			  url: `/list-users/${userID}/`, // Updated to match urls.py
 			  method: 'PUT',
 			  body: userData,
 			}),
 		}),
-		deleteUser: builder.mutation({
-			query: (userId) => ({
-			  url: `/list-users/${userId}/`,
+	  
+		deleteUser: builder.mutation<{ message: string }, string>({
+			query: (userID) => ({
+			  url: `/list-users/${userID}/`, // Updated to match urls.py
 			  method: 'DELETE',
 			}),
 		}),
 	}),
-});
+})
 
 export const {
   useRetrieveUserQuery,

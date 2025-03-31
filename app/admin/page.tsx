@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react'; // Removed unused useEffect
 import { Spinner } from '@/components/common';
 import Sidebar from '@/components/common/Sidebar';
 import Footer from '@/components/common/Footer';
@@ -31,7 +31,7 @@ export default function AdminDashboard() {
     repassword: '',
   });
 
-  const [isLoading, setIsLoading] = useState(false); // Single loading state for all actions
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleAddInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -46,42 +46,42 @@ export default function AdminDashboard() {
       alert('Passwords do not match!');
       return;
     }
-    setIsLoading(true); // Start loading
+    setIsLoading(true);
     try {
-      await handleAddUser(newUser);
+      await handleAddUser(newUser); // newUser matches AddUserInput type
       setShowAddModal(false);
-      setNewUser({ first_name: '', last_name: '', email: '', password: '', repassword: '' }); // Reset form
+      setNewUser({ first_name: '', last_name: '', email: '', password: '', repassword: '' });
     } catch (error) {
       console.error('Error adding user:', error);
     } finally {
-      setIsLoading(false); // Stop loading
+      setIsLoading(false);
     }
   };
 
   const handleSaveClick = async () => {
     if (selectedUser) {
-      setIsLoading(true); // Start loading
+      setIsLoading(true);
       try {
         await handleSave();
         setShowModal(false);
       } catch (error) {
         console.error('Error saving user:', error);
       } finally {
-        setIsLoading(false); // Stop loading
+        setIsLoading(false);
       }
     }
   };
 
   const handleDeleteClick = async () => {
     if (selectedUser) {
-      setIsLoading(true); // Start loading
+      setIsLoading(true);
       try {
         await handleDelete();
         setShowModal(false);
       } catch (error) {
         console.error('Error deleting user:', error);
       } finally {
-        setIsLoading(false); // Stop loading
+        setIsLoading(false);
       }
     }
   };
@@ -149,7 +149,7 @@ export default function AdminDashboard() {
                 </thead>
                 <tbody>
                   {users?.map((user) => (
-                    <tr key={user.id} className="border-b border-gray-200 dark:border-gray-700">
+                    <tr key={user.userID} className="border-b border-gray-200 dark:border-gray-700">
                       <td className="py-3 px-4 text-blue-500 cursor-pointer hover:text-blue-600" onClick={() => handleUserClick(user)}>
                         {user.first_name}
                       </td>
@@ -169,7 +169,7 @@ export default function AdminDashboard() {
             )}
           </div>
 
-          {/* Add Account Modal - Landscape Design */}
+          {/* Add Account Modal */}
           {showAddModal && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
               <div className="bg-[#1A202C] p-6 rounded-3xl shadow-2xl w-full max-w-4xl transform transition-all duration-300 ease-in-out hover:shadow-3xl">
@@ -184,7 +184,6 @@ export default function AdminDashboard() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {/* Left Column - First Name, Last Name, Email */}
                   <div className="space-y-5">
                     <div>
                       <label className="block text-sm font-semibold text-gray-300 mb-2">First Name</label>
@@ -220,8 +219,6 @@ export default function AdminDashboard() {
                       />
                     </div>
                   </div>
-
-                  {/* Right Column - Password, Re-enter Password */}
                   <div className="space-y-5">
                     <div>
                       <label className="block text-sm font-semibold text-gray-300 mb-2">Password</label>
@@ -260,14 +257,14 @@ export default function AdminDashboard() {
 
                 {isLoading && (
                   <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                    <Spinner/>
+                    <Spinner />
                   </div>
                 )}
               </div>
             </div>
           )}
 
-          {/* User Edit Modal - Restored Original Landscape Design with X Button */}
+          {/* User Edit Modal */}
           {showModal && selectedUser && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
               <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-2xl w-full max-w-4xl">
@@ -283,7 +280,6 @@ export default function AdminDashboard() {
                   </button>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {/* Left Column */}
                   <div className="space-y-4">
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">First Name</label>
@@ -316,83 +312,30 @@ export default function AdminDashboard() {
                       />
                     </div>
                   </div>
-
-                  {/* Right Column - Checkboxes */}
                   <div className="space-y-4">
-                    <div className="flex items-center">
-                      <input
-                        type="checkbox"
-                        name="is_active"
-                        checked={!!selectedUser.is_active}
-                        onChange={(e) => handleInputChange({ target: { name: 'is_active', value: e.target.checked } } as any)}
-                        className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                      />
-                      <label className="ml-2 text-sm font-semibold text-gray-700 dark:text-gray-300">Is Active</label>
-                    </div>
-                    <div className="flex items-center">
-                      <input
-                        type="checkbox"
-                        name="is_staff"
-                        checked={!!selectedUser.is_staff}
-                        onChange={(e) => handleInputChange({ target: { name: 'is_staff', value: e.target.checked } } as any)}
-                        className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                      />
-                      <label className="ml-2 text-sm font-semibold text-gray-700 dark:text-gray-300">Is Staff</label>
-                    </div>
-                    <div className="flex items-center">
-                      <input
-                        type="checkbox"
-                        name="is_superuser"
-                        checked={!!selectedUser.is_superuser}
-                        onChange={(e) => handleInputChange({ target: { name: 'is_superuser', value: e.target.checked } } as any)}
-                        className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                      />
-                      <label className="ml-2 text-sm font-semibold text-gray-700 dark:text-gray-300">Is Superuser</label>
-                    </div>
-                    <div className="flex items-center">
-                      <input
-                        type="checkbox"
-                        name="is_dean"
-                        checked={!!selectedUser.is_dean}
-                        onChange={(e) => handleInputChange({ target: { name: 'is_dean', value: e.target.checked } } as any)}
-                        className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                      />
-                      <label className="ml-2 text-sm font-semibold text-gray-700 dark:text-gray-300">Is Dean</label>
-                    </div>
-                    <div className="flex items-center">
-                      <input
-                        type="checkbox"
-                        name="is_headdept"
-                        checked={!!selectedUser.is_headdept}
-                        onChange={(e) => handleInputChange({ target: { name: 'is_headdept', value: e.target.checked } } as any)}
-                        className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                      />
-                      <label className="ml-2 text-sm font-semibold text-gray-700 dark:text-gray-300">Is Head Dept</label>
-                    </div>
-                    <div className="flex items-center">
-                      <input
-                        type="checkbox"
-                        name="is_faculty"
-                        checked={!!selectedUser.is_faculty}
-                        onChange={(e) => handleInputChange({ target: { name: 'is_faculty', value: e.target.checked } } as any)}
-                        className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                      />
-                      <label className="ml-2 text-sm font-semibold text-gray-700 dark:text-gray-300">Is Faculty</label>
-                    </div>
-                    <div className="flex items-center">
-                      <input
-                        type="checkbox"
-                        name="is_student"
-                        checked={!!selectedUser.is_student}
-                        onChange={(e) => handleInputChange({ target: { name: 'is_student', value: e.target.checked } } as any)}
-                        className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                      />
-                      <label className="ml-2 text-sm font-semibold text-gray-700 dark:text-gray-300">Is Student</label>
-                    </div>
+                    {[
+                      { name: 'is_active', label: 'Is Active' },
+                      { name: 'is_staff', label: 'Is Staff' },
+                      { name: 'is_superuser', label: 'Is Superuser' },
+                      { name: 'is_dean', label: 'Is Dean' },
+                      { name: 'is_headdept', label: 'Is Head Dept' },
+                      { name: 'is_faculty', label: 'Is Faculty' },
+                      { name: 'is_student', label: 'Is Student' },
+                    ].map((field) => (
+                      <div key={field.name} className="flex items-center">
+                        <input
+                          type="checkbox"
+                          name={field.name}
+                          checked={!!selectedUser[field.name as keyof typeof selectedUser]}
+                          onChange={handleInputChange}
+                          className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                        />
+                        <label className="ml-2 text-sm font-semibold text-gray-700 dark:text-gray-300">{field.label}</label>
+                      </div>
+                    ))}
                   </div>
                 </div>
 
-                {/* Buttons */}
                 <div className="flex justify-end space-x-4 mt-6">
                   <button
                     onClick={handleSaveClick}
@@ -412,7 +355,7 @@ export default function AdminDashboard() {
 
                 {isLoading && (
                   <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                    <Spinner/>
+                    <Spinner />
                   </div>
                 )}
               </div>

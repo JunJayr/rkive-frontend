@@ -1,3 +1,4 @@
+// useAdminDashboard.ts
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import {
@@ -5,21 +6,30 @@ import {
   useGetDocumentCountQuery,
   useUpdateUserMutation,
   useDeleteUserMutation,
-  useAddUserMutation 
+  useAddUserMutation,
 } from '@/redux/features/authApiSlice';
 
-interface User {
-  id: string;
+// Export the User interface
+export interface User {
+  userID: string;
   first_name: string;
   last_name: string;
   email: string;
   is_active: boolean;
   is_staff: boolean;
   is_superuser: boolean;
-  is_dean: boolean; 
+  is_dean: boolean;
   is_headdept: boolean;
   is_faculty: boolean;
   is_student: boolean;
+}
+
+interface AddUserInput {
+  first_name: string;
+  last_name: string;
+  email: string;
+  password: string;
+  repassword: string;
 }
 
 export default function useAdminDashboard() {
@@ -47,25 +57,25 @@ export default function useAdminDashboard() {
     }
   };
 
-  const handleAddUser = async (newUser: { first_name: string; last_name: string; email: string; password: string; repassword: string; }) => {
+  const handleAddUser = async (newUser: AddUserInput) => {
     try {
       await addUser(newUser).unwrap();
-      toast.success("User added successfully");
+      toast.success('User added successfully');
       refetch();
     } catch (error) {
-      toast.error("Error adding user");
+      toast.error('Error adding user');
     }
   };
 
   const handleSave = async () => {
     if (selectedUser) {
       try {
-        await updateUser({ userId: selectedUser.id, userData: selectedUser });
-        toast.success("User details updated successfully");
+        await updateUser({ userID: selectedUser.userID, userData: selectedUser }).unwrap();
+        toast.success('User details updated successfully');
         refetch();
         setShowModal(false);
       } catch (error) {
-        toast.error("Failed to update user");
+        toast.error('Failed to update user');
       }
     }
   };
@@ -73,12 +83,12 @@ export default function useAdminDashboard() {
   const handleDelete = async () => {
     if (selectedUser) {
       try {
-        await deleteUser(selectedUser.id);
-        toast.success("User deleted successfully");
+        await deleteUser(selectedUser.userID).unwrap();
+        toast.success('User deleted successfully');
         refetch();
         setShowModal(false);
       } catch (error) {
-        toast.error("Failed to delete user");
+        toast.error('Failed to delete user');
       }
     }
   };
