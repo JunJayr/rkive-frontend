@@ -2,7 +2,7 @@
 
 import { useState } from 'react'; // Removed unused useEffect
 import { Spinner } from '@/components/common';
-import Sidebar from '@/components/common/Sidebar';
+import Sidebar from '@/components/common/admin/Sidebar';
 import Footer from '@/components/common/Footer';
 import { CheckCircleIcon, XCircleIcon } from 'lucide-react';
 import { useAdminDashboard } from '@/hooks/admin';
@@ -21,7 +21,7 @@ export default function AdminDashboard() {
     handleAddUser,
     setShowModal,
   } = useAdminDashboard();
-
+  
   const [showAddModal, setShowAddModal] = useState(false);
   const [newUser, setNewUser] = useState({
     first_name: '',

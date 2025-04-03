@@ -1,9 +1,17 @@
 import { apiSlice } from '../services/apiSlice';
 
 interface User {
+  userID: string;
   first_name: string;
   last_name: string;
   email: string;
+  is_active: boolean;
+  is_staff: boolean;
+  is_superuser: boolean;
+  is_dean: boolean;
+  is_headdept: boolean;
+  is_faculty: boolean;
+  is_student: boolean;
 }
 
 interface ApplicationFormData {
@@ -42,25 +50,25 @@ interface PanelFormData {
 }
 
 interface DocumentCount {
-	generated_documents_count: number;
-	manuscripts_count: number;
-  }
+  generated_documents_count: number;
+  manuscripts_count: number;
+}
 
-  interface AddUserResponse {
-	message: string;
-	userID: string;
-	first_name: string;
-	last_name: string;
-	email: string;
-  }
+interface AddUserResponse {
+  message: string;
+  userID: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+}
   
-  interface AddUserInput {
-	first_name: string;
-	last_name: string;
-	email: string;
-	password: string;
-	repassword: string;
-  }
+interface AddUserInput {
+  first_name: string;
+  last_name: string;
+  email: string;
+  password: string;
+  repassword: string;
+}
 
 const authApiSlice = apiSlice.injectEndpoints({
 	
